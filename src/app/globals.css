@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@import "shadcn/tailwind.css";
+@import "tw-animate-css";
+@import "../styles/tokens.css";
+@import "../styles/base.css";
+@import "../styles/effects.css";
+

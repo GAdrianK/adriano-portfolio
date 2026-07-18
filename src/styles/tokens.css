@@ -1,0 +1,141 @@
+:root {
+  color-scheme: dark;
+
+  /* Core palette */
+  --background: oklch(0.125 0.022 260);
+  --foreground: oklch(0.97 0.008 250);
+  --surface: oklch(0.165 0.026 260);
+  --surface-strong: oklch(0.205 0.032 260);
+  --card: oklch(0.17 0.026 260);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.18 0.028 260);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.7 0.16 258);
+  --primary-foreground: oklch(0.99 0.004 250);
+  --secondary: oklch(0.79 0.115 194);
+  --secondary-foreground: oklch(0.14 0.025 255);
+  --muted: oklch(0.22 0.025 260);
+  --muted-foreground: oklch(0.72 0.028 252);
+  --accent: oklch(0.69 0.16 294);
+  --accent-foreground: oklch(0.99 0.004 250);
+  --destructive: oklch(0.65 0.2 25);
+  --destructive-foreground: oklch(0.99 0.004 250);
+  --success: oklch(0.78 0.14 156);
+
+  /* Functional surfaces */
+  --border: oklch(0.87 0.02 250 / 14%);
+  --input: oklch(0.87 0.02 250 / 18%);
+  --ring: oklch(0.72 0.14 255);
+  --glass-fill: oklch(0.2 0.028 260 / 58%);
+  --glass-fill-subtle: oklch(0.18 0.024 260 / 42%);
+  --glass-fill-strong: oklch(0.22 0.034 260 / 72%);
+  --glass-border: oklch(0.94 0.012 250 / 14%);
+  --glass-highlight: oklch(0.99 0.006 250 / 22%);
+
+  /* Data visualization */
+  --chart-1: var(--primary);
+  --chart-2: var(--secondary);
+  --chart-3: var(--accent);
+  --chart-4: oklch(0.76 0.14 110);
+  --chart-5: oklch(0.72 0.17 25);
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --section-space: clamp(5.5rem, 9vw, 10rem);
+  --page-gutter: clamp(1.25rem, 4vw, 4rem);
+  --content-max: 90rem;
+
+  /* Radius scale */
+  --radius: 1rem;
+  --radius-xs: 0.5rem;
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --ds-shadow-soft: 0 18px 60px oklch(0.04 0.02 260 / 36%);
+  --ds-shadow-glass:
+    0 24px 80px oklch(0.04 0.025 260 / 46%),
+    inset 0 1px 0 var(--glass-highlight);
+  --ds-shadow-glow:
+    0 14px 44px oklch(0.58 0.18 258 / 28%),
+    inset 0 1px 0 oklch(1 0 0 / 22%);
+  --ds-shadow-focus: 0 0 0 3px oklch(0.72 0.14 255 / 34%);
+
+  /* Motion */
+  --duration-fast: 160ms;
+  --duration-base: 220ms;
+  --duration-slow: 520ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --text-display-xl: clamp(3.25rem, 8vw, 8.5rem);
+  --text-display-xl--line-height: 0.9;
+  --text-display-xl--letter-spacing: -0.065em;
+  --text-display-lg: clamp(2.5rem, 5.5vw, 5.75rem);
+  --text-display-lg--line-height: 0.96;
+  --text-display-lg--letter-spacing: -0.05em;
+  --text-heading: clamp(1.75rem, 3vw, 3rem);
+  --text-heading--line-height: 1.05;
+  --text-heading--letter-spacing: -0.035em;
+  --text-body-lg: clamp(1.0625rem, 1.5vw, 1.375rem);
+  --text-body-lg--line-height: 1.55;
+
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-pill: var(--radius-pill);
+
+  --shadow-soft: var(--ds-shadow-soft);
+  --shadow-glass: var(--ds-shadow-glass);
+  --shadow-glow: var(--ds-shadow-glow);
+}
+
