@@ -18,9 +18,8 @@ export function SectionHeading({ index, eyebrow, title, description, titleId, al
         <span className="h-px w-8 bg-secondary/45" aria-hidden="true" />
         <span className="font-mono text-[0.6875rem] tracking-[0.16em] text-muted-foreground uppercase">{eyebrow}</span>
       </div>
-      <h2 id={titleId} className="text-heading text-balance font-semibold">{title}</h2>
-      <p className="mt-5 text-body-lg text-pretty text-muted-foreground">{description}</p>
+      <h2 id={titleId} className="text-heading text-balance font-medium">{title}</h2>
+      <p className="mt-6 max-w-2xl text-body-lg text-pretty text-muted-foreground">{description}</p>
     </header>
   );
 }
-

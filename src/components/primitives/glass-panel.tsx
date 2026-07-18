@@ -54,4 +54,3 @@ function GlassPanel({
 
 export { GlassPanel, glassPanelVariants };
 export type { GlassPanelProps };
-

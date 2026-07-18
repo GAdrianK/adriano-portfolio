@@ -9,7 +9,7 @@ export function Journey() {
         <ol className="relative border-l border-border pl-6 sm:pl-9">
           {journeySteps.map((step, index) => (
             <li key={step.number} className="relative pb-12 last:pb-0">
-              <span className="absolute top-1.5 -left-[1.72rem] size-3 rounded-full border-2 border-background bg-secondary shadow-[0_0_1.25rem_var(--secondary)] sm:-left-[2.6rem]" aria-hidden="true" />
+              <span className="absolute top-2 -left-[1.56rem] size-1.5 bg-primary sm:-left-[2.43rem]" aria-hidden="true" />
               <div className="flex flex-wrap items-center gap-3"><span className="font-mono text-[0.625rem] tracking-[0.13em] text-secondary">{step.number}</span><span className="font-mono text-[0.625rem] tracking-[0.13em] text-muted-foreground uppercase">{step.label}</span></div>
               <h3 className="mt-4 text-2xl font-semibold tracking-[-0.035em]">{step.title}</h3>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">{step.text}</p>

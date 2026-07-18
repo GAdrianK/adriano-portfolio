@@ -81,7 +81,7 @@ function ActiveIndicator({ layoutId }: { layoutId: string }) {
   return (
     <motion.span
       layoutId={layoutId}
-      className="absolute inset-0 rounded-pill border border-white/10 bg-white/9 shadow-[inset_0_1px_0_oklch(1_0_0_/_10%)]"
+      className="absolute right-3 bottom-0 left-3 h-px bg-primary"
       transition={{
         duration: shouldReduceMotion ? 0 : 0.22,
         ease: [0.22, 1, 0.36, 1],
@@ -97,9 +97,9 @@ function DesktopNavbar({ activeSection, onOpenQuick }: { activeSection: SectionI
 
   return (
     <motion.header
-      className="pointer-events-none fixed top-6 left-1/2 z-50 hidden -translate-x-1/2 lg:block"
+      className="pointer-events-none fixed top-5 left-1/2 z-50 hidden -translate-x-1/2 lg:block"
       initial={false}
-      animate={{ y: isScrolled ? -10 : 0 }}
+      animate={{ y: isScrolled ? -6 : 0 }}
       transition={{
         duration: shouldReduceMotion ? 0 : 0.22,
         ease: [0.22, 1, 0.36, 1],
@@ -108,10 +108,10 @@ function DesktopNavbar({ activeSection, onOpenQuick }: { activeSection: SectionI
       <GlassPanel
         variant="navigation"
         padding="none"
-        radius="pill"
+        radius="lg"
         className={cn(
           "pointer-events-auto flex items-center transition-[height,padding] ease-out",
-          isScrolled ? "h-14 px-2 duration-200" : "h-16 px-2.5 duration-200",
+          isScrolled ? "h-12 px-2 duration-200" : "h-14 px-2.5 duration-200",
         )}
       >
         <nav
@@ -122,8 +122,8 @@ function DesktopNavbar({ activeSection, onOpenQuick }: { activeSection: SectionI
           <a
             href="#presentation"
             className={cn(
-              "group mr-1 flex shrink-0 items-center justify-center rounded-pill border border-white/10 bg-white/7 font-mono text-xs font-semibold tracking-[0.08em] text-foreground transition-[width,height,background-color] duration-200 hover:bg-white/12 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/35",
-              isScrolled ? "size-10" : "size-11",
+              "group mr-1 flex shrink-0 items-center justify-center rounded-sm border border-border bg-transparent font-mono text-[0.6875rem] font-medium tracking-[0.08em] text-foreground transition-[width,height,background-color] duration-200 hover:bg-surface-strong focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/25",
+              isScrolled ? "size-8" : "size-9",
             )}
             aria-label="Adriano Gallo — retour à la présentation"
           >
@@ -139,7 +139,7 @@ function DesktopNavbar({ activeSection, onOpenQuick }: { activeSection: SectionI
                   key={item.id}
                   href={`#${item.id}`}
                   className={cn(
-                    "relative flex h-10 items-center rounded-pill px-3.5 text-sm font-medium outline-none transition-colors duration-200 focus-visible:ring-[3px] focus-visible:ring-ring/35 xl:px-4",
+                    "relative flex h-9 items-center rounded-sm px-3 text-xs font-medium tracking-[0.01em] outline-none transition-colors duration-200 focus-visible:ring-[3px] focus-visible:ring-ring/25 xl:px-3.5",
                     isActive
                       ? "text-foreground"
                       : "text-muted-foreground hover:text-foreground",
@@ -160,7 +160,7 @@ function DesktopNavbar({ activeSection, onOpenQuick }: { activeSection: SectionI
             onClick={onOpenQuick}
             aria-label="Ouvrir la navigation rapide"
             aria-keyshortcuts="Control+K Meta+K"
-            className="ml-1 hidden h-9 items-center gap-1.5 rounded-pill border border-border bg-white/5 px-3 font-mono text-[0.625rem] text-muted-foreground outline-none transition-colors hover:bg-white/10 hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/35 xl:flex"
+            className="ml-1 hidden h-8 items-center gap-1.5 rounded-sm border border-border bg-transparent px-2.5 font-mono text-[0.625rem] text-muted-foreground outline-none transition-colors hover:bg-surface-strong hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/25 xl:flex"
           >
             <Search className="size-3" aria-hidden="true" />
             <span>⌘K</span>
@@ -171,9 +171,8 @@ function DesktopNavbar({ activeSection, onOpenQuick }: { activeSection: SectionI
             size="sm"
             className={cn(
               "ml-1 transition-[height,padding,box-shadow,transform] duration-200",
-              isScrolled ? "h-10 px-4" : "h-11 px-5",
-              activeSection === "contact" &&
-                "ring-[3px] ring-secondary/25 ring-offset-2 ring-offset-background",
+              isScrolled ? "h-8 px-3.5" : "h-9 px-4",
+              activeSection === "contact" && "outline outline-1 outline-primary/35",
             )}
           >
             <a
@@ -347,7 +346,7 @@ function MobileDock({ activeSection }: { activeSection: SectionId }) {
       <GlassPanel
         variant="navigation"
         padding="none"
-        radius="xl"
+        radius="lg"
         className="px-1.5 py-1.5"
       >
         <nav

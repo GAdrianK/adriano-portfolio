@@ -5,14 +5,12 @@ import type * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "group relative inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-pill font-medium tracking-[-0.01em] transition-[transform,background-color,border-color,color,box-shadow] duration-200 ease-out outline-none focus-visible:ring-[3px] focus-visible:ring-ring/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-45 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "group relative inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-sm font-medium tracking-[-0.01em] transition-[background-color,border-color,color] duration-200 ease-out outline-none focus-visible:ring-[3px] focus-visible:ring-ring/25 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-45 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        primary:
-          "button-primary text-primary-foreground hover:-translate-y-0.5 hover:shadow-[0_18px_54px_oklch(0.58_0.18_258_/_34%)] active:translate-y-0",
-        glass:
-          "button-glass text-foreground hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/10 active:translate-y-0",
+        primary: "button-primary text-primary-foreground hover:bg-[#d5c9b8]",
+        glass: "button-glass text-foreground hover:border-primary/40 hover:bg-surface-strong",
         text: "button-text rounded-sm px-0 text-foreground hover:text-secondary",
       },
       size: {
@@ -56,4 +54,3 @@ function Button({
 
 export { Button, buttonVariants };
 export type { ButtonProps };
-

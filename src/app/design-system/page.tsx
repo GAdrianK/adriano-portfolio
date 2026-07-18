@@ -20,13 +20,13 @@ export const metadata: Metadata = {
 };
 
 const colors = [
-  { name: "Background", token: "--background", value: "Deep navy" },
-  { name: "Surface", token: "--surface", value: "Raised navy" },
-  { name: "Foreground", token: "--foreground", value: "Cold white" },
-  { name: "Muted", token: "--muted-foreground", value: "Slate" },
-  { name: "Primary", token: "--primary", value: "Electric blue" },
-  { name: "Secondary", token: "--secondary", value: "Soft cyan" },
-  { name: "Accent", token: "--accent", value: "Cold violet" },
+  { name: "Background", token: "--background", value: "Matte black" },
+  { name: "Surface", token: "--surface", value: "Soft charcoal" },
+  { name: "Foreground", token: "--foreground", value: "Warm white" },
+  { name: "Muted", token: "--muted-foreground", value: "Soft grey" },
+  { name: "Primary", token: "--primary", value: "Quiet taupe" },
+  { name: "Secondary", token: "--secondary", value: "Quiet taupe" },
+  { name: "Accent", token: "--accent", value: "Quiet taupe" },
   { name: "Success", token: "--success", value: "Positive state" },
 ] as const;
 
@@ -41,11 +41,11 @@ const spacing = [
 ] as const;
 
 const radii = [
-  { name: "XS", token: "--radius-xs", value: "8 px" },
-  { name: "SM", token: "--radius-sm", value: "12 px" },
-  { name: "MD", token: "--radius-md", value: "16 px" },
-  { name: "LG", token: "--radius-lg", value: "24 px" },
-  { name: "XL", token: "--radius-xl", value: "32 px" },
+  { name: "XS", token: "--radius-xs", value: "4 px" },
+  { name: "SM", token: "--radius-sm", value: "6 px" },
+  { name: "MD", token: "--radius-md", value: "8 px" },
+  { name: "LG", token: "--radius-lg", value: "12 px" },
+  { name: "XL", token: "--radius-xl", value: "16 px" },
   { name: "Pill", token: "--radius-pill", value: "999 px" },
 ] as const;
 
@@ -95,8 +95,8 @@ export default function DesignSystemPage() {
             </h1>
           </div>
           <p className="max-w-xl text-body-lg text-pretty text-muted-foreground lg:justify-self-end">
-            Une base sombre, lisible et technique. Les effets de verre restent
-            réservés aux surfaces qui ont besoin de profondeur.
+            Une base sombre, mate et éditoriale. La profondeur vient des
+            contrastes de surface, des bordures et du rythme typographique.
           </p>
         </div>
       </header>
@@ -179,7 +179,7 @@ export default function DesignSystemPage() {
           <SectionHeader
             eyebrow="03 · Actions"
             title="Boutons"
-            description="Trois niveaux d’emphase : une action primaire lumineuse, une action secondaire en verre et une action texte discrète."
+            description="Trois niveaux d’emphase sobres : une action primaire taupe, une action secondaire bordée et une action texte discrète."
           />
           <h2 id="buttons-title" className="sr-only">
             Boutons
@@ -207,10 +207,10 @@ export default function DesignSystemPage() {
           <SectionHeader
             eyebrow="04 · Surfaces"
             title="Profondeur contrôlée"
-            description="Chaque niveau de verre correspond à un usage précis. Les halos du fond rendent le flou visible sans compromettre la lisibilité."
+            description="Les surfaces restent mates et peu élevées. Le flou est réservé à la navigation flottante, où il sert directement la lisibilité."
           />
           <h2 id="glass-title" className="sr-only">
-            Surfaces en verre
+            Surfaces et profondeur
           </h2>
           <div className="grid gap-5 lg:grid-cols-3">
             {[
@@ -321,8 +321,8 @@ export default function DesignSystemPage() {
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {[
               { name: "Soft", className: "shadow-soft" },
-              { name: "Glass", className: "shadow-glass" },
-              { name: "Glow", className: "shadow-glow" },
+              { name: "Surface", className: "shadow-glass" },
+              { name: "Quiet", className: "shadow-glow" },
             ].map((shadow) => (
               <div
                 key={shadow.name}

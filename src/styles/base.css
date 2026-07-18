@@ -36,7 +36,7 @@
   }
 
   ::selection {
-    background: oklch(0.7 0.16 258 / 35%);
+    background: rgb(199 185 165 / 28%);
     color: var(--foreground);
   }
 
@@ -85,4 +85,3 @@
     animation-iteration-count: 1 !important;
   }
 }
-

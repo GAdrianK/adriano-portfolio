@@ -17,10 +17,9 @@ export function Contact() {
             <div className="flex gap-3"><MessageSquareText className="mt-0.5 size-4 shrink-0 text-secondary" aria-hidden="true" /><div><dt className="text-foreground">Premier échange</dt><dd className="mt-1 text-muted-foreground">Besoin, contraintes et prochaine étape concrète</dd></div></div>
           </dl>
         </div>
-        <GlassPanel variant="elevated" padding="lg" radius="xl"><div className="mb-8"><p className="font-mono text-[0.6875rem] tracking-[0.14em] text-secondary uppercase">Démarrer une conversation</p><h3 className="mt-4 text-2xl font-semibold tracking-[-0.035em]">Parlez-moi de votre projet.</h3></div><ContactForm contactEmail={siteConfig.contactEmail} /></GlassPanel>
+        <GlassPanel variant="subtle" padding="lg" radius="lg"><div className="mb-8"><p className="font-mono text-[0.6875rem] tracking-[0.14em] text-primary uppercase">Démarrer une conversation</p><h3 className="mt-4 text-2xl font-medium tracking-[-0.04em]">Parlez-moi de votre projet.</h3></div><ContactForm contactEmail={siteConfig.contactEmail} /></GlassPanel>
       </div>
       <footer className="mt-[var(--section-space)] flex flex-col gap-4 border-t border-border pt-8 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between"><p>© {new Date().getFullYear()} {siteConfig.name}. Conçu comme un produit, construit avec Next.js.</p><a href="#presentation" className="w-fit text-foreground transition-colors hover:text-secondary">Retour en haut ↑</a></footer>
     </section>
   );
 }
-
