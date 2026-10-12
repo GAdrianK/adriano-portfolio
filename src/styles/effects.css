@@ -5,11 +5,70 @@
   pointer-events: none;
   background-color: var(--background);
   background-image:
-    radial-gradient(circle at 16% 12%, rgb(212 122 73 / 5%), transparent 38%),
-    radial-gradient(circle at 84% 26%, rgb(125 181 148 / 4%), transparent 42%),
-    linear-gradient(to right, rgb(240 237 230 / 1.8%) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(240 237 230 / 1.8%) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 4.5rem 4.5rem, 4.5rem 4.5rem;
+    radial-gradient(circle at 12% 8%, rgb(184 58 36 / 4.5%), transparent 42%),
+    radial-gradient(circle at 88% 75%, rgb(30 77 51 / 4.5%), transparent 45%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 31px,
+      rgb(20 19 17 / 3.2%) 31px,
+      rgb(20 19 17 / 3.2%) 32px
+    ),
+    linear-gradient(90deg, transparent 0%, rgb(184 58 36 / 14%) 4.5rem, transparent 4.55rem);
+}
+
+.font-editorial {
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+}
+
+.ink-stamp {
+  display: inline-block;
+  border: 1.5px solid var(--primary);
+  color: var(--primary);
+  padding: 0.15rem 0.55rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: rotate(-1.5deg);
+  background: rgb(184 58 36 / 5%);
+}
+
+.pitch-stamp {
+  display: inline-block;
+  border: 1.5px solid var(--secondary);
+  color: var(--secondary);
+  padding: 0.15rem 0.55rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgb(30 77 51 / 6%);
+}
+
+.margin-note {
+  position: relative;
+  border-left: 2px solid var(--primary);
+  padding-left: 0.875rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+}
+
+.struck-out {
+  text-decoration: line-through;
+  text-decoration-color: var(--primary);
+  text-decoration-thickness: 2px;
+  color: var(--muted-foreground);
+}
+
+.paper-sheet {
+  background: #f9f5ec;
+  border: 1px solid var(--foreground);
+  box-shadow: 5px 5px 0px rgb(20 19 17 / 10%);
 }
 
 .mobile-dock-safe {
@@ -17,7 +76,7 @@
 }
 
 .mobile-menu-surface {
-  background: rgb(18 20 18 / 98%);
+  background: rgb(243 237 226 / 98%);
 }
 
 .hero-ambient {
@@ -63,54 +122,52 @@
 }
 
 .glass-panel--subtle {
-  background: var(--surface);
+  background: #f8f4eb;
+  border-color: var(--border);
 }
 
 .glass-panel--elevated {
-  background: var(--surface-strong);
+  background: var(--surface);
+  border-color: var(--foreground);
+  box-shadow: 4px 4px 0px rgb(20 19 17 / 8%);
 }
 
 .glass-panel--navigation {
-  border-color: rgb(240 237 230 / 12%);
-  background: rgb(18 20 18 / 90%);
-  box-shadow: 0 12px 32px rgb(0 0 0 / 28%);
-  backdrop-filter: blur(0.75rem);
-  -webkit-backdrop-filter: blur(0.75rem);
+  border: 1px solid var(--foreground);
+  background: rgb(247 242 232 / 94%);
+  box-shadow: 4px 4px 0px rgb(20 19 17 / 12%);
+  backdrop-filter: blur(0.5rem);
+  -webkit-backdrop-filter: blur(0.5rem);
 }
 
 .button-primary {
-  border: 1px solid var(--primary);
-  background: var(--primary);
-  box-shadow: none;
+  border: 1px solid var(--foreground);
+  background: var(--foreground);
+  color: var(--background);
+  box-shadow: 3px 3px 0px var(--primary);
 }
 
 .button-glass {
-  border: 1px solid var(--border);
-  background: rgb(240 237 230 / 2%);
-  box-shadow: none;
+  border: 1px solid var(--foreground);
+  background: #f9f5ec;
+  color: var(--foreground);
+  box-shadow: 3px 3px 0px rgb(20 19 17 / 10%);
 }
 
 .button-text::after {
   position: absolute;
   right: 0;
-  bottom: 0.35rem;
+  bottom: 0.25rem;
   left: 0;
-  height: 1px;
+  height: 1.5px;
   content: "";
   transform: scaleX(0);
   transform-origin: right;
-  background: currentColor;
+  background: var(--primary);
   transition: transform var(--duration-base) var(--ease-out);
 }
 
 .button-text:hover::after {
   transform: scaleX(1);
   transform-origin: left;
-}
-
-@media (max-width: 48rem) {
-  .glass-panel--navigation {
-    backdrop-filter: blur(0.5rem);
-    -webkit-backdrop-filter: blur(0.5rem);
-  }
 }

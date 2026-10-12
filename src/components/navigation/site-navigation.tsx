@@ -222,14 +222,14 @@ function QuickNavigation({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div className="fixed inset-0 z-[70] grid place-items-start bg-black/55 px-4 pt-[12svh] backdrop-blur-sm sm:place-items-center sm:pt-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.16 }} onPointerDown={onClose}>
+        <motion.div className="fixed inset-0 z-[70] grid place-items-start bg-black/40 px-4 pt-[12svh] backdrop-blur-xs sm:place-items-center sm:pt-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.16 }} onPointerDown={onClose}>
           <motion.div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="quick-navigation-title" className="w-full max-w-lg" initial={{ opacity: 0, y: 10, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 6, scale: 0.98 }} transition={{ duration: 0.18 }} onPointerDown={(event) => event.stopPropagation()}>
-            <GlassPanel variant="elevated" padding="sm" radius="lg" className="mobile-menu-surface">
-              <div className="relative z-10 flex items-center gap-3 border-b border-border px-2 pb-4"><Search className="size-4 text-primary" aria-hidden="true" /><div><h2 id="quick-navigation-title" className="text-sm font-semibold">Navigation rapide</h2><p className="mt-0.5 text-xs text-muted-foreground">Sections et études de cas.</p></div><button type="button" onClick={onClose} aria-label="Fermer la navigation rapide" className="ml-auto grid size-9 place-items-center rounded-sm text-muted-foreground outline-none hover:bg-white/8 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><X className="size-4" aria-hidden="true" /></button></div>
-              <nav aria-label="Navigation rapide" className="mt-2 grid gap-1">
-                {navigationItems.map((item, index) => <a key={item.id} href={`#${item.id}`} onClick={onClose} className="flex min-h-11 items-center justify-between rounded-sm px-3 text-sm text-foreground outline-none transition-colors hover:bg-white/8 focus-visible:bg-white/8 focus-visible:ring-2 focus-visible:ring-ring"><span>{item.label}</span><span className="font-mono text-[0.625rem] text-muted-foreground">0{index + 1}</span></a>)}
-                <Link href="/projets/vision-balling" onClick={onClose} className="mt-1 flex min-h-11 items-center justify-between rounded-sm border-t border-border px-3 pt-2 text-sm text-secondary outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><span>Étude VISION-BALLING (v0.9.0-rc1)</span><ArrowUpRight className="size-4" aria-hidden="true" /></Link>
-                <Link href="/projets/football-intelligence-assistant" onClick={onClose} className="flex min-h-11 items-center justify-between rounded-sm px-3 text-sm text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><span>Étude Football Intelligence Assistant</span><ArrowUpRight className="size-4" aria-hidden="true" /></Link>
+            <GlassPanel variant="elevated" padding="sm" radius="md" className="mobile-menu-surface">
+              <div className="relative z-10 flex items-center gap-3 border-b border-foreground/30 px-2 pb-4"><Search className="size-4 text-primary" aria-hidden="true" /><div><h2 id="quick-navigation-title" className="font-mono text-xs font-semibold uppercase">Index du cahier</h2><p className="mt-0.5 text-xs text-muted-foreground">Chapitres et dossiers expérimentaux.</p></div><button type="button" onClick={onClose} aria-label="Fermer la navigation rapide" className="ml-auto grid size-9 place-items-center rounded-xs text-muted-foreground outline-none hover:bg-surface-strong hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><X className="size-4" aria-hidden="true" /></button></div>
+              <nav aria-label="Navigation rapide" className="mt-2 grid gap-1 font-mono text-xs">
+                {navigationItems.map((item, index) => <a key={item.id} href={`#${item.id}`} onClick={onClose} className="flex min-h-10 items-center justify-between rounded-xs px-3 text-foreground outline-none transition-colors hover:bg-surface-strong focus-visible:bg-surface-strong focus-visible:ring-2 focus-visible:ring-ring"><span>{item.label}</span><span className="text-[0.625rem] text-primary">0{index + 1}</span></a>)}
+                <Link href="/projets/vision-balling" onClick={onClose} className="mt-1 flex min-h-10 items-center justify-between rounded-xs border-t border-foreground/25 px-3 pt-2 font-semibold text-primary outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><span>Dossier VISION-BALLING (v0.9.0-rc1)</span><ArrowUpRight className="size-4" aria-hidden="true" /></Link>
+                <Link href="/projets/football-intelligence-assistant" onClick={onClose} className="flex min-h-10 items-center justify-between rounded-xs px-3 text-secondary outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><span>Archive Football Intelligence Assistant</span><ArrowUpRight className="size-4" aria-hidden="true" /></Link>
               </nav>
             </GlassPanel>
           </motion.div>
@@ -305,12 +305,12 @@ function MobileDock({ activeSection }: { activeSection: SectionId }) {
             <GlassPanel
               variant="elevated"
               padding="sm"
-              radius="lg"
+              radius="md"
               className="mobile-menu-surface"
               role="region"
               aria-label="Menu de navigation complet"
             >
-              <div className="relative z-10 grid grid-cols-2 gap-1">
+              <div className="relative z-10 grid grid-cols-2 gap-1 font-mono text-xs">
                 {navigationItems.map((item) => {
                   const isActive = activeSection === item.id;
 
@@ -320,10 +320,10 @@ function MobileDock({ activeSection }: { activeSection: SectionId }) {
                       href={`#${item.id}`}
                       onClick={closeMenu}
                       className={cn(
-                        "rounded-md px-3 py-3 text-sm font-medium outline-none transition-colors duration-200 focus-visible:ring-[3px] focus-visible:ring-ring/35",
+                        "rounded-xs px-3 py-2.5 font-medium outline-none transition-colors duration-200 focus-visible:ring-[3px] focus-visible:ring-ring/35",
                         isActive
-                          ? "bg-white/10 text-foreground"
-                          : "text-muted-foreground hover:bg-white/7 hover:text-foreground",
+                          ? "bg-foreground text-background"
+                          : "text-muted-foreground hover:bg-surface-strong hover:text-foreground",
                       )}
                       aria-current={isActive ? "location" : undefined}
                     >
@@ -332,10 +332,11 @@ function MobileDock({ activeSection }: { activeSection: SectionId }) {
                   );
                 })}
                 <Link
-                  href="/design-system"
-                  className="col-span-2 mt-1 flex items-center justify-between rounded-md border border-border bg-white/5 px-3 py-3 text-sm font-medium text-foreground outline-none transition-colors duration-200 hover:bg-white/9 focus-visible:ring-[3px] focus-visible:ring-ring/35"
+                  href="/projets/vision-balling"
+                  onClick={closeMenu}
+                  className="col-span-2 mt-1 flex items-center justify-between rounded-xs border border-foreground bg-background px-3 py-2.5 font-semibold text-primary outline-none transition-colors duration-200 hover:bg-surface-strong focus-visible:ring-[3px] focus-visible:ring-ring/35"
                 >
-                  Design system
+                  Dossier VISION-BALLING
                   <ArrowUpRight aria-hidden="true" className="size-4" />
                 </Link>
               </div>

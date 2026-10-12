@@ -2,153 +2,185 @@ import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { heroContent } from "@/content/hero";
 import { siteConfig } from "@/content/site";
-
-const dossierRows = [
-  {
-    label: "Formation",
-    value: "Master PluriTAL (NLP)",
-    meta: "Sorbonne Nouvelle · Paris Nanterre · INALCO",
-  },
-  {
-    label: "Système phare",
-    value: "VISION-BALLING v0.9.0-rc1",
-    meta: "RF-DETR · BoT-SORT · PnLCalib 2D · RAG ancré",
-  },
-  {
-    label: "Rigueur",
-    value: "26 protocoles expérimentaux",
-    meta: "0 % hallucination sur 76 cas · Résultats négatifs publiés",
-  },
-  {
-    label: "Localisation",
-    value: "Paris / Asnières-sur-Seine",
-    meta: "Français, Italien, Anglais, Portugais",
-  },
-] as const;
 
 export function Hero() {
   return (
     <section
       id="presentation"
       data-navigation-section
-      className="hero-ambient relative flex min-h-[92svh] scroll-mt-24 items-center py-24 sm:py-28 lg:py-32"
+      className="hero-ambient relative min-h-[94svh] scroll-mt-24 pt-24 pb-16 sm:pt-28 lg:pt-32 lg:pb-24"
       aria-labelledby="hero-title"
     >
-      <div className="w-full">
-        <div className="hero-reveal flex flex-wrap items-center justify-between gap-4 border-b border-border pb-4 font-mono text-[0.6875rem] tracking-[0.08em]">
-          <div className="flex items-center gap-3">
-            <span className="inline-block size-1.5 bg-secondary" aria-hidden="true" />
-            <span className="text-foreground">{heroContent.name}</span>
-            <span className="text-border" aria-hidden="true">/</span>
-            <span className="text-muted-foreground">{siteConfig.location}</span>
+      {/* Print Masthead / Colophon Header */}
+      <div className="hero-reveal flex flex-wrap items-center justify-between gap-4 border-y-2 border-foreground py-3 font-mono text-[0.6875rem] tracking-[0.1em] uppercase">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="bg-foreground px-2 py-0.5 text-background">
+            CAHIER N° 01
+          </span>
+          <span className="font-semibold text-foreground">ADRIANO GALLO</span>
+          <span className="text-muted-foreground">
+            — LINGUISTIQUE (SORBONNE) × IA & VISION (PLURITAL)
+          </span>
+        </div>
+        <div className="flex items-center gap-5">
+          <span className="hidden text-muted-foreground sm:inline">
+            PARIS / ASNIÈRES
+          </span>
+          <a
+            href={siteConfig.githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="underline decoration-primary decoration-1 underline-offset-4 transition-colors hover:text-primary"
+          >
+            GITHUB ↗
+          </a>
+          <a
+            href={siteConfig.linkedinUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="underline decoration-primary decoration-1 underline-offset-4 transition-colors hover:text-primary"
+          >
+            LINKEDIN ↗
+          </a>
+        </div>
+      </div>
+
+      {/* Giant Asymmetric Typographic Poster Composition */}
+      <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:items-start">
+        {/* Left Margin Annotation Column */}
+        <div className="hero-reveal hero-reveal-delay-1 space-y-6 lg:col-span-3 lg:pt-4">
+          <div className="margin-note">
+            <p className="font-semibold text-primary uppercase">
+              [NOTE DE MARGE — 01]
+            </p>
+            <p className="mt-1.5">
+              J’ai commencé par étudier la syntaxe, l’italien et l’analyse du
+              discours à la Sorbonne avant de plonger dans le NLP, le RAG et la
+              vision par ordinateur en Master PluriTAL.
+            </p>
           </div>
-          <div className="flex items-center gap-5 text-muted-foreground">
-            <a
-              href={siteConfig.githubUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="transition-colors hover:text-foreground"
-            >
-              GitHub ↗
-            </a>
-            <a
-              href={siteConfig.linkedinUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="transition-colors hover:text-foreground"
-            >
-              LinkedIn ↗
-            </a>
+
+          <div className="border-t border-border pt-4 font-mono text-xs leading-5 text-muted-foreground">
+            <p className="text-foreground">OBSESSION ACTUELLE :</p>
+            <p className="mt-1">
+              Pourquoi un modèle de langage hallucine-t-il sur un match de foot,
+              et comment l’ancrer de force dans la physique du terrain (105 m ×
+              68 m) ?
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-2 pt-1">
+            <span className="ink-stamp">ZÉRO BULLSHIT</span>
+            <span className="pitch-stamp">TERRAIN & PREUVE</span>
           </div>
         </div>
 
-        <div className="grid gap-12 pt-10 lg:grid-cols-12 lg:gap-12 lg:pt-14">
-          <div className="lg:col-span-7 xl:col-span-8">
-            <p className="hero-reveal hero-reveal-delay-1 font-mono text-xs tracking-[0.12em] text-primary uppercase">
-              {siteConfig.education}
-            </p>
+        {/* Center/Right Giant Expressive Headline + Asymmetric Offset */}
+        <div className="lg:col-span-9">
+          <p className="hero-reveal hero-reveal-delay-1 font-mono text-xs tracking-[0.08em] text-muted-foreground uppercase">
+            Ni agence, ni{" "}
+            <span className="struck-out">prompt engineer magique</span> —
+            ingénierie du langage & de l’image
+          </p>
 
-            <h1 id="hero-title" className="mt-5 text-balance">
-              <span className="hero-reveal hero-reveal-delay-2 block text-display-lg font-medium tracking-[-0.045em] text-foreground">
-                {heroContent.role}
-              </span>
-              <span className="hero-reveal hero-reveal-delay-3 mt-3 block text-[clamp(1.25rem,2.4vw,2.15rem)] leading-[1.2] font-normal tracking-[-0.03em] text-muted-foreground">
-                {heroContent.specialties}
-              </span>
-            </h1>
+          <h1
+            id="hero-title"
+            className="hero-reveal hero-reveal-delay-2 mt-4 font-editorial text-[clamp(3.3rem,8.4vw,7.8rem)] leading-[0.89] font-normal tracking-[-0.025em] text-foreground"
+          >
+            De la grammaire{" "}
+            <span className="italic text-primary">italienne</span> à la
+            géométrie d’un{" "}
+            <span className="underline decoration-secondary decoration-2 underline-offset-8">
+              contre-pressing
+            </span>
+            .
+          </h1>
 
-            <p className="hero-reveal hero-reveal-delay-4 mt-8 max-w-2xl text-body-lg text-pretty text-foreground/90">
-              {heroContent.statement}
-            </p>
+          {/* Asymmetric 2-column sub-spread under the giant title */}
+          <div className="mt-10 grid gap-8 border-t border-foreground/25 pt-8 lg:grid-cols-12">
+            <div className="hero-reveal hero-reveal-delay-3 lg:col-span-7">
+              <p className="text-lg leading-relaxed text-foreground sm:text-xl">
+                Je m’appelle <strong>Adriano Gallo</strong>. Ce qui me fait
+                vibrer, c’est l’endroit exact où{" "}
+                <em>les mots rencontrent le réel</em> : transformer une vidéo
+                brute de match en coordonnées métriques, fouiller un corpus sans
+                perdre une nuance technique, et obliger une IA à{" "}
+                <span className="bg-primary/12 px-1.5 font-medium text-primary">
+                  prouver chaque phrase par un fait horodaté
+                </span>{" "}
+                — ou à se taire.
+              </p>
 
-            <div className="hero-reveal hero-reveal-delay-4 mt-6 max-w-2xl border-l-2 border-secondary/70 bg-surface/70 px-4 py-3.5 text-sm leading-6 text-muted-foreground">
-              <span className="mr-2 font-mono text-[0.6875rem] tracking-[0.1em] text-secondary uppercase">
-                Focus actuel ·
-              </span>
-              {heroContent.currentWork}
+              <p className="mt-4 font-mono text-xs leading-6 text-muted-foreground">
+                → Ci-dessous : mon établi{" "}
+                <strong className="text-foreground">
+                  VISION-BALLING (v0.9.0-rc1)
+                </strong>{" "}
+                avec scrubber vidéo temps réel, mes notes d’expériences (y
+                compris les modèles que j’ai jetés à la poubelle),{" "}
+                <strong className="text-foreground">
+                  Football Intelligence
+                </strong>{" "}
+                et <strong className="text-foreground">Evalia</strong>.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <Button asChild size="lg">
+                  <a href="#projets">
+                    Manipuler l’établi VISION-BALLING
+                    <ArrowDownRight aria-hidden="true" />
+                  </a>
+                </Button>
+                <Button asChild variant="glass" size="lg">
+                  <Link href="/projets/vision-balling">
+                    Lire le cahier d’expériences (EXP-01→26)
+                    <ArrowUpRight aria-hidden="true" />
+                  </Link>
+                </Button>
+              </div>
             </div>
 
-            <div className="hero-reveal hero-reveal-delay-5 mt-9 flex flex-col gap-3 min-[440px]:flex-row min-[440px]:flex-wrap">
-              <Button asChild size="lg" className="w-full min-[440px]:w-auto">
-                <a href="#projets">
-                  Voir les projets
-                  <ArrowDownRight aria-hidden="true" />
-                </a>
-              </Button>
-              <Button asChild variant="glass" size="lg" className="w-full min-[440px]:w-auto">
-                <Link href="/projets/vision-balling">
-                  Étude VISION-BALLING
-                  <ArrowUpRight aria-hidden="true" />
-                </Link>
-              </Button>
-              <Button asChild variant="text" size="lg" className="w-fit">
-                <a href="#contact">Me contacter</a>
-              </Button>
+            {/* Right Offset Specimen Card (Live Video Frame + Stamp) */}
+            <div className="hero-reveal hero-reveal-delay-4 lg:col-span-5">
+              <div className="paper-sheet relative p-3.5 sm:p-4">
+                <div className="mb-2.5 flex items-center justify-between font-mono text-[0.625rem] tracking-[0.1em] uppercase">
+                  <span className="font-semibold text-foreground">
+                    FIG. 00 — CAPTURE BRUTE SNMOT-068
+                  </span>
+                  <span className="text-primary">● REC 25 FPS</span>
+                </div>
+
+                <div className="relative overflow-hidden border border-foreground bg-black">
+                  <video
+                    src="/demo_videos/SNMOT-068.mp4"
+                    poster="/demo_videos/SNMOT-068_poster.jpg"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="aspect-video w-full object-cover opacity-95"
+                  />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-2.5 font-mono text-[0.625rem] text-[#f3ede2]">
+                    <span>RF-DETR @ 960px + BoT-SORT + PnLCalib 2D</span>
+                    <span className="float-right text-[#8be0b0]">
+                      mAP50: 0.865
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-3 flex items-start justify-between gap-3 font-mono text-[0.6875rem] leading-4 text-muted-foreground">
+                  <p>
+                    « J’ai refusé que le LLM résume le match au hasard : chaque
+                    ligne du rapport pointe vers une frame précise. »
+                  </p>
+                  <span className="shrink-0 border border-secondary px-1.5 py-0.5 text-[0.625rem] font-semibold text-secondary">
+                    0% HALLU
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
-
-          <aside
-            className="hero-reveal hero-reveal-delay-4 flex flex-col justify-between border border-border bg-surface p-5 sm:p-6 lg:col-span-5 xl:col-span-4"
-            aria-label="Fiche synthétique du profil"
-          >
-            <div className="flex items-center justify-between border-b border-border pb-3.5 font-mono text-[0.6875rem] tracking-[0.1em] uppercase">
-              <span className="text-primary">Fiche d’ingénierie</span>
-              <span className="text-muted-foreground">2026</span>
-            </div>
-
-            <dl className="divide-y divide-border">
-              {dossierRows.map((row) => (
-                <div key={row.label} className="py-3.5">
-                  <dt className="font-mono text-[0.625rem] tracking-[0.12em] text-muted-foreground uppercase">
-                    {row.label}
-                  </dt>
-                  <dd className="mt-1 text-sm font-medium text-foreground">
-                    {row.value}
-                  </dd>
-                  <dd className="mt-0.5 text-xs text-muted-foreground">
-                    {row.meta}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-
-            <div className="mt-4 grid grid-cols-3 gap-2 border-t border-border pt-4 font-mono">
-              <div className="border border-border bg-background/60 px-2.5 py-2">
-                <p className="text-sm font-semibold text-foreground">0.865</p>
-                <p className="mt-0.5 text-[0.625rem] text-muted-foreground">mAP50 RF-DETR</p>
-              </div>
-              <div className="border border-border bg-background/60 px-2.5 py-2">
-                <p className="text-sm font-semibold text-foreground">75.8%</p>
-                <p className="mt-0.5 text-[0.625rem] text-muted-foreground">IDF1 Tracking</p>
-              </div>
-              <div className="border border-border bg-background/60 px-2.5 py-2">
-                <p className="text-sm font-semibold text-secondary">0.0%</p>
-                <p className="mt-0.5 text-[0.625rem] text-muted-foreground">Hallucination</p>
-              </div>
-            </div>
-          </aside>
         </div>
       </div>
     </section>

@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, Code2 } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 
-import { GlassPanel } from "@/components/primitives/glass-panel";
 import { ProjectPreview } from "@/components/sections/project-preview";
 import { Button } from "@/components/ui/button";
 import { visionBallingProject as project } from "@/content/projects";
 
 export const metadata: Metadata = {
-  title: `${project.name} (${project.version})`,
+  title: `${project.name} (${project.version}) — Cahier d’expériences`,
   description: project.summary,
   openGraph: {
     title: `${project.name} — ${project.subtitle}`,
@@ -19,204 +18,216 @@ export const metadata: Metadata = {
 export default function VisionBallingCaseStudyPage() {
   return (
     <main id="main-content" className="page-shell pb-24">
-      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-border py-6 sm:py-8">
+      {/* Masthead */}
+      <header className="flex flex-wrap items-center justify-between gap-4 border-b-2 border-foreground py-6">
         <Button asChild variant="glass" size="sm">
           <Link href="/#projets">
             <ArrowLeft aria-hidden="true" />
-            Retour au portfolio
+            Retour au cahier principal
           </Link>
         </Button>
-        <div className="flex items-center gap-3 font-mono text-xs text-muted-foreground">
-          <span>{project.code}</span>
-          <span>/</span>
-          <span className="text-secondary">{project.version}</span>
-          <span>/</span>
-          <span>Licence Apache-2.0</span>
+        <div className="flex flex-wrap items-center gap-3 font-mono text-xs uppercase">
+          <span className="ink-stamp">DOSSIER EXPÉRIMENTAL · {project.version}</span>
+          <span className="pitch-stamp">LICENCE APACHE-2.0</span>
         </div>
       </header>
 
-      <article className="pt-14 sm:pt-20">
-        <div className="max-w-5xl">
-          <div className="flex flex-wrap items-center gap-3 font-mono text-xs tracking-[0.12em] uppercase">
-            <span className="text-primary">Étude système & Benchmarks</span>
-            <span className="text-border" aria-hidden="true">/</span>
-            <span className="text-muted-foreground">{project.domain}</span>
+      <article className="pt-12 sm:pt-16">
+        {/* Giant Asymmetric Poster Title */}
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-8">
+            <p className="font-mono text-xs tracking-[0.12em] text-primary uppercase">
+              PIÈCE N° 01 — VISION PAR ORDINATEUR, GÉOMÉTRIE 2D & RAG ANCRÉ
+            </p>
+            <h1 className="mt-3 font-editorial text-[clamp(3.2rem,7.8vw,7rem)] leading-[0.88] font-normal text-foreground">
+              {project.name}
+            </h1>
+            <p className="mt-4 font-editorial text-2xl italic text-secondary sm:text-3xl">
+              « Transformer une vidéo broadcast en preuves géométriques — et
+              interdire au LLM d’inventer le match. »
+            </p>
           </div>
 
-          <h1 className="mt-5 text-display-lg font-medium tracking-[-0.045em] text-foreground">
-            {project.name}
-          </h1>
-          <p className="mt-3 font-mono text-sm text-secondary sm:text-base">
-            {project.subtitle}
-          </p>
-          <p className="mt-6 max-w-4xl text-body-lg text-pretty text-muted-foreground">
-            {project.summary}
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Button asChild size="default">
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Ouvrir le dépôt GitHub VISION-BALLING — nouvel onglet"
-              >
-                Dépôt GitHub ({project.version})
-                <Code2 aria-hidden="true" />
-              </a>
-            </Button>
-            <Button asChild variant="glass" size="default">
-              <Link href="/projets/football-intelligence-assistant">
-                Voir le socle RAG initial (SYS-02)
-                <ArrowUpRight aria-hidden="true" />
-              </Link>
-            </Button>
+          <div className="margin-note lg:col-span-4">
+            <p className="font-semibold text-primary uppercase">
+              [NOTE D’INTENTION]
+            </p>
+            <p className="mt-1.5">
+              Ce projet est né d’un constat simple : ni un détecteur YOLO brut,
+              ni un LLM bavard ne permettent d’analyser honnêtement un match.
+              Il fallait relier les deux par un référentiel physique de 105 m ×
+              68 m et 26 protocoles de test scellés.
+            </p>
           </div>
         </div>
 
-        {/* Key Validated Metrics Strip */}
-        <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {project.metrics.map((metric) => (
-            <div
-              key={metric.label}
-              className="border border-border bg-surface p-5"
+        <p className="mt-8 max-w-4xl text-lg leading-relaxed text-foreground/90">
+          {project.summary}
+        </p>
+
+        <div className="mt-7 flex flex-wrap items-center gap-4">
+          <Button asChild size="lg">
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Ouvrir le dépôt GitHub VISION-BALLING — nouvel onglet"
             >
-              <p className="font-mono text-[0.6875rem] tracking-[0.1em] text-muted-foreground uppercase">
-                {metric.label}
-              </p>
-              <p className="mt-2 font-mono text-2xl font-semibold text-foreground">
-                {metric.value}
-              </p>
-              <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                {metric.detail}
-              </p>
-            </div>
-          ))}
+              Explorer le code source GitHub ({project.version}) ↗
+            </a>
+          </Button>
+          <Button asChild variant="glass" size="lg">
+            <Link href="/projets/football-intelligence-assistant">
+              Voir la genèse RAG (Football Intelligence)
+              <ArrowUpRight aria-hidden="true" />
+            </Link>
+          </Button>
         </div>
 
-        {/* Interactive 2D Metric Pitch & Evidence Inspector */}
-        <div className="mt-10">
+        {/* Live Video & Evidence Scrubber */}
+        <div className="mt-12">
           <ProjectPreview variant="vision-balling" />
         </div>
 
-        {/* Problem vs Grounded Solution */}
+        {/* 4 Architectural Chapters as an Editorial Notebook Spread */}
         <section
-          className="grid gap-6 py-[var(--section-space)] lg:grid-cols-2"
-          aria-labelledby="challenge-title"
-        >
-          <GlassPanel padding="lg" radius="md">
-            <span className="font-mono text-xs tracking-[0.12em] text-primary uppercase">
-              01 · Constat technique
-            </span>
-            <h2
-              id="challenge-title"
-              className="mt-4 text-2xl font-medium tracking-[-0.035em] sm:text-3xl"
-            >
-              Pourquoi les boîtes englobantes et les LLM classiques échouent sur un match.
-            </h2>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground sm:text-base">
-              {project.problem}
-            </p>
-          </GlassPanel>
-
-          <GlassPanel variant="elevated" padding="lg" radius="md">
-            <span className="font-mono text-xs tracking-[0.12em] text-secondary uppercase">
-              02 · Discipline d’ancrage
-            </span>
-            <h2 className="mt-4 text-2xl font-medium tracking-[-0.035em] sm:text-3xl">
-              Séparer la vérité géométrique du match de l’interprétation RAG.
-            </h2>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground sm:text-base">
-              {project.solution}
-            </p>
-          </GlassPanel>
-        </section>
-
-        {/* 4 Architectural Chapters */}
-        <section
-          className="border-t border-border py-[var(--section-space)]"
+          className="mt-20 border-t-2 border-foreground pt-12"
           aria-labelledby="chapters-title"
         >
-          <div className="max-w-3xl">
-            <span className="font-mono text-xs tracking-[0.12em] text-primary uppercase">
-              03 · Architecture en 4 chapitres
-            </span>
-            <h2 id="chapters-title" className="mt-4 text-heading font-medium">
-              Du flux vidéo MP4 au rapport post-match sourcé.
-            </h2>
-          </div>
-
-          <ol className="mt-12 grid gap-6 md:grid-cols-2">
-            {project.chapters.map((chapter) => (
-              <li
-                key={chapter.number}
-                className="flex flex-col justify-between border border-border bg-surface p-6 sm:p-7"
+          <div className="grid gap-8 lg:grid-cols-12">
+            <div className="lg:col-span-4">
+              <p className="font-mono text-xs tracking-[0.12em] text-primary uppercase">
+                ARCHITECTURE EN 4 TEMPS
+              </p>
+              <h2
+                id="chapters-title"
+                className="mt-3 font-editorial text-5xl leading-[0.92] text-foreground"
               >
-                <div>
-                  <div className="flex items-center justify-between border-b border-border pb-3 font-mono text-xs">
-                    <span className="text-primary">{chapter.number}</span>
-                    <span className="text-secondary">{chapter.metrics}</span>
+                Du pixel vidéo à la citation{" "}
+                <span className="italic text-secondary">vérifiable</span>.
+              </h2>
+            </div>
+
+            <ol className="space-y-8 lg:col-span-8 lg:border-l lg:border-foreground/30 lg:pl-10">
+              {project.chapters.map((chapter) => (
+                <li
+                  key={chapter.number}
+                  className="border-b border-border pb-7 last:border-b-0 last:pb-0"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+                    <span className="bg-foreground px-2 py-0.5 text-background">
+                      {chapter.number}
+                    </span>
+                    <span className="font-semibold text-secondary">
+                      {chapter.metrics}
+                    </span>
                   </div>
-                  <h3 className="mt-5 text-xl font-medium tracking-[-0.03em] text-foreground">
+                  <h3 className="mt-3 font-editorial text-3xl text-foreground sm:text-4xl">
                     {chapter.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                  <p className="mt-2 text-base leading-7 text-foreground/85">
                     {chapter.description}
                   </p>
-                </div>
-              </li>
-            ))}
-          </ol>
+                </li>
+              ))}
+            </ol>
+          </div>
         </section>
 
-        {/* Consolidated Benchmark Table (EXP-01 to EXP-26) */}
+        {/* Negative Results & Crash-Tests Spread */}
         <section
-          className="border-t border-border py-[var(--section-space)]"
+          className="mt-20 border-t-2 border-foreground pt-12"
+          aria-labelledby="negative-results-title"
+        >
+          <div className="grid gap-10 lg:grid-cols-12">
+            <div className="lg:col-span-5">
+              <span className="ink-stamp">TRANSPARENCE ÉPISTÉMIQUE</span>
+              <h2
+                id="negative-results-title"
+                className="mt-4 font-editorial text-5xl leading-[0.92] text-foreground"
+              >
+                Les modèles que j’ai{" "}
+                <span className="struck-out">jetés</span> ou corrigés en cours
+                de route.
+              </h2>
+              <p className="mt-4 text-sm leading-6 text-muted-foreground sm:text-base">
+                Plutôt que de cacher ce qui échoue sur de vraies vidéos TV,
+                chaque impasse a été mesurée et transformée en décision
+                d’architecture.
+              </p>
+            </div>
+
+            <div className="space-y-6 lg:col-span-7">
+              {project.negativeResults.map((item) => (
+                <div key={item.code} className="paper-sheet p-6">
+                  <div className="flex items-center justify-between border-b border-border pb-2 font-mono text-xs">
+                    <span className="font-semibold text-primary">
+                      [{item.code}]
+                    </span>
+                    <span className="text-muted-foreground uppercase">
+                      Note de laboratoire
+                    </span>
+                  </div>
+                  <h3 className="mt-3 font-editorial text-2xl text-foreground sm:text-3xl">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2.5 text-sm leading-6 text-foreground/90 sm:text-base sm:leading-7">
+                    {item.explanation}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Sealed Benchmarks Ledger (EXP-01 to EXP-26) */}
+        <section
+          className="mt-20 border-t-2 border-foreground pt-12"
           aria-labelledby="benchmarks-title"
         >
           <div className="max-w-3xl">
-            <span className="font-mono text-xs tracking-[0.12em] text-secondary uppercase">
-              04 · Protocole d’évaluation (EXP-01 à EXP-26)
-            </span>
-            <h2 id="benchmarks-title" className="mt-4 text-heading font-medium">
-              Résultats expérimentaux consolidés.
-            </h2>
-            <p className="mt-4 text-sm leading-6 text-muted-foreground sm:text-base">
-              Évaluations menées sur le dataset H250 (5 834 images annotées), 12 séquences SoccerNet Tracking 2023 (SNMOT-060 à 071) et 76 scénarios d’audit RAG.
+            <p className="font-mono text-xs tracking-[0.12em] text-secondary uppercase">
+              REGISTRE D’ÉVALUATION SCELLÉ (EXP-01 À EXP-26)
             </p>
+            <h2
+              id="benchmarks-title"
+              className="mt-3 font-editorial text-5xl leading-[0.92] text-foreground"
+            >
+              Les chiffres bruts sur H250 & SoccerNet.
+            </h2>
           </div>
 
-          <div className="mt-10 overflow-x-auto border border-border bg-surface">
+          <div className="mt-8 overflow-x-auto border-2 border-foreground bg-[#f9f5ec]">
             <table className="w-full border-collapse text-left text-xs sm:text-sm">
               <thead>
-                <tr className="border-b border-border bg-surface-strong font-mono text-[0.6875rem] tracking-[0.08em] text-muted-foreground uppercase">
-                  <th className="px-4 py-3.5">Protocole</th>
-                  <th className="px-4 py-3.5">Composant</th>
-                  <th className="px-4 py-3.5">Modèle / Approche</th>
-                  <th className="px-4 py-3.5">Métriques validées</th>
-                  <th className="px-4 py-3.5">Statut</th>
+                <tr className="border-b-2 border-foreground bg-surface font-mono text-[0.6875rem] tracking-[0.08em] text-foreground uppercase">
+                  <th className="px-4 py-3">Protocole</th>
+                  <th className="px-4 py-3">Domaine</th>
+                  <th className="px-4 py-3">Approche</th>
+                  <th className="px-4 py-3">Résultat mesuré</th>
+                  <th className="px-4 py-3">Verdict</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {project.benchmarks.map((row) => (
-                  <tr key={row.exp} className="hover:bg-surface-strong/40">
-                    <td className="whitespace-nowrap px-4 py-3.5 font-mono text-xs text-primary">
+                  <tr key={row.exp} className="hover:bg-surface/60">
+                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs font-semibold text-primary">
                       {row.exp}
                     </td>
-                    <td className="px-4 py-3.5 font-medium text-foreground">
+                    <td className="px-4 py-3 font-medium text-foreground">
                       {row.domain}
                     </td>
-                    <td className="px-4 py-3.5 text-muted-foreground">
+                    <td className="px-4 py-3 text-muted-foreground">
                       {row.approach}
                     </td>
-                    <td className="px-4 py-3.5 font-mono text-xs text-foreground">
+                    <td className="px-4 py-3 font-mono text-xs text-foreground">
                       {row.metric}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-3.5 font-mono text-[0.6875rem]">
+                    <td className="whitespace-nowrap px-4 py-3 font-mono text-[0.6875rem] font-semibold">
                       <span
                         className={
                           row.status.includes("réfutée")
-                            ? "text-primary"
+                            ? "text-primary underline"
                             : "text-secondary"
                         }
                       >
@@ -230,65 +241,26 @@ export default function VisionBallingCaseStudyPage() {
           </div>
         </section>
 
-        {/* Negative Results & Scientific Honesty */}
-        <section
-          className="border-t border-border py-[var(--section-space)]"
-          aria-labelledby="negative-results-title"
-        >
-          <div className="max-w-3xl">
-            <span className="font-mono text-xs tracking-[0.12em] text-primary uppercase">
-              05 · Transparence épistémique & Résultats négatifs
-            </span>
-            <h2 id="negative-results-title" className="mt-4 text-heading font-medium">
-              Ce que le système refuse d’extrapoler.
-            </h2>
-            <p className="mt-4 text-sm leading-6 text-muted-foreground sm:text-base">
-              Documenter les hypothèses réfutées fait partie intégrante de l’ingénierie de VISION-BALLING.
-            </p>
-          </div>
-
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            {project.negativeResults.map((item) => (
-              <div
-                key={item.code}
-                className="border border-border bg-surface p-6"
-              >
-                <span className="font-mono text-xs text-primary">
-                  {item.code}
-                </span>
-                <h3 className="mt-3 text-lg font-medium text-foreground">
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                  {item.explanation}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <footer className="flex flex-col justify-between gap-4 border-t border-border pt-10 sm:flex-row sm:items-center">
+        <footer className="mt-16 flex flex-col justify-between gap-4 border-t-2 border-foreground pt-8 sm:flex-row sm:items-center">
           <div className="flex flex-wrap gap-3">
-            <Button asChild>
+            <Button asChild size="lg">
               <a
                 href={project.githubUrl}
                 target="_blank"
                 rel="noreferrer"
-                aria-label="Voir le dépôt GitHub VISION-BALLING — nouvel onglet"
               >
-                Explorer le dépôt GitHub
-                <Code2 aria-hidden="true" />
+                Voir le dépôt GitHub complet ↗
               </a>
             </Button>
-            <Button asChild variant="glass">
-              <Link href="/#contact">Échanger autour de ce système</Link>
+            <Button asChild variant="glass" size="lg">
+              <Link href="/#contact">M’écrire à propos de VISION-BALLING</Link>
             </Button>
           </div>
           <Link
             href="/#projets"
-            className="font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
+            className="font-mono text-xs font-semibold underline decoration-primary underline-offset-4 hover:text-primary"
           >
-            ← Retour aux projets
+            ← Retour au cahier principal
           </Link>
         </footer>
       </article>

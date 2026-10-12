@@ -1,27 +1,27 @@
 export const navigationItems = [
   {
     id: "presentation",
-    label: "Présentation",
-    shortLabel: "Accueil",
+    label: "Ouverture",
+    shortLabel: "Cahier",
   },
   {
     id: "projets",
-    label: "Projets",
-    shortLabel: "Projets",
+    label: "L’Établi",
+    shortLabel: "Établi",
   },
   {
     id: "expertise",
-    label: "Compétences",
-    shortLabel: "Stack",
+    label: "Sous le capot",
+    shortLabel: "Capot",
   },
   {
     id: "solutions",
-    label: "Méthode",
-    shortLabel: "Méthode",
+    label: "Manifeste",
+    shortLabel: "Notes",
   },
   {
     id: "contact",
-    label: "Contact",
+    label: "Colophon",
     shortLabel: "Contact",
   },
 ] as const;

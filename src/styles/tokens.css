@@ -1,43 +1,46 @@
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* Editorial & technical palette — warm ink, paper ivory, terracotta & pitch sage */
-  --background: #0c0d0b;
-  --foreground: #f0ede6;
-  --surface: #121412;
-  --surface-strong: #171a17;
-  --card: #121412;
+  /* Living Research Notebook / Independent Print Magazine Palette */
+  --background: #f3ede2;
+  --foreground: #141311;
+  --surface: #ebe3d5;
+  --surface-strong: #e2d8c7;
+  --card: #ebe3d5;
   --card-foreground: var(--foreground);
-  --popover: #121412;
+  --popover: #f3ede2;
   --popover-foreground: var(--foreground);
-  --primary: #d47a49;
-  --primary-foreground: #0c0d0b;
-  --secondary: #7db594;
-  --secondary-foreground: #0c0d0b;
-  --muted: #171a17;
-  --muted-foreground: #9d9b93;
-  --accent: #d47a49;
-  --accent-foreground: #0c0d0b;
-  --destructive: #c46860;
-  --destructive-foreground: #f0ede6;
-  --success: #63ad82;
 
-  /* Functional surfaces */
-  --border: #242824;
-  --input: #2c312c;
-  --ring: #d47a49;
-  --glass-fill: rgb(18 20 18 / 94%);
-  --glass-fill-subtle: rgb(18 20 18 / 78%);
-  --glass-fill-strong: #171a17;
-  --glass-border: #2c312c;
-  --glass-highlight: rgb(240 237 230 / 4%);
+  /* Terracotta Brick (correction ink, stamps, margin notes) & Worn Pitch Green (field, telemetry) */
+  --primary: #b83a24;
+  --primary-foreground: #f7f3eb;
+  --secondary: #1e4d33;
+  --secondary-foreground: #f7f3eb;
+  --muted: #e5dccb;
+  --muted-foreground: #59544c;
+  --accent: #b83a24;
+  --accent-foreground: #f7f3eb;
+  --destructive: #a12818;
+  --destructive-foreground: #f7f3eb;
+  --success: #1e4d33;
+
+  /* Ink hairlines & rules */
+  --border: #cfc5b3;
+  --border-strong: #141311;
+  --input: #bfb4a0;
+  --ring: #b83a24;
+  --glass-fill: rgb(243 237 226 / 94%);
+  --glass-fill-subtle: rgb(235 227 213 / 82%);
+  --glass-fill-strong: #e2d8c7;
+  --glass-border: #141311;
+  --glass-highlight: rgb(20 19 17 / 4%);
 
   /* Data visualization */
-  --chart-1: #d47a49;
-  --chart-2: #7db594;
-  --chart-3: #c9bfae;
-  --chart-4: #6d736d;
-  --chart-5: #3b403b;
+  --chart-1: #b83a24;
+  --chart-2: #1e4d33;
+  --chart-3: #141311;
+  --chart-4: #7a7267;
+  --chart-5: #bfb4a0;
 
   /* Spacing scale */
   --space-1: 0.25rem;
@@ -52,28 +55,28 @@
   --space-16: 4rem;
   --space-20: 5rem;
   --space-24: 6rem;
-  --section-space: clamp(5.5rem, 9vw, 9.5rem);
-  --page-gutter: clamp(1.25rem, 4vw, 4rem);
-  --content-max: 86rem;
+  --section-space: clamp(5rem, 8.5vw, 9rem);
+  --page-gutter: clamp(1.25rem, 4vw, 3.75rem);
+  --content-max: 88rem;
 
-  /* Crisp architectural radius scale (less bubbly / less generic AI) */
-  --radius: 0.25rem;
-  --radius-xs: 0.125rem;
-  --radius-sm: 0.1875rem;
-  --radius-md: 0.25rem;
-  --radius-lg: 0.375rem;
-  --radius-xl: 0.5rem;
-  --radius-pill: 0.25rem;
+  /* Sharp print corners */
+  --radius: 0.125rem;
+  --radius-xs: 0.0625rem;
+  --radius-sm: 0.125rem;
+  --radius-md: 0.1875rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.375rem;
+  --radius-pill: 0.1875rem;
 
-  /* Quiet elevation */
-  --ds-shadow-soft: 0 14px 36px rgb(0 0 0 / 24%);
-  --ds-shadow-glass: 0 16px 40px rgb(0 0 0 / 28%);
-  --ds-shadow-glow: 0 8px 22px rgb(0 0 0 / 20%);
-  --ds-shadow-focus: 0 0 0 2px rgb(212 122 73 / 32%);
+  /* Print shadows */
+  --ds-shadow-soft: 4px 4px 0px rgb(20 19 17 / 8%);
+  --ds-shadow-glass: 0 12px 32px rgb(20 19 17 / 12%);
+  --ds-shadow-glow: 3px 3px 0px rgb(184 58 36 / 18%);
+  --ds-shadow-focus: 0 0 0 2px rgb(184 58 36 / 35%);
 
   /* Motion */
   --duration-fast: 140ms;
-  --duration-base: 180ms;
+  --duration-base: 190ms;
   --duration-slow: 420ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
@@ -110,17 +113,18 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-serif);
 
-  --text-display-xl: clamp(3.5rem, 8.5vw, 7.75rem);
+  --text-display-xl: clamp(3.75rem, 9.5vw, 8.75rem);
   --text-display-xl--line-height: 0.9;
-  --text-display-xl--letter-spacing: -0.055em;
-  --text-display-lg: clamp(2.65rem, 6vw, 5.75rem);
-  --text-display-lg--line-height: 0.95;
-  --text-display-lg--letter-spacing: -0.045em;
-  --text-heading: clamp(1.85rem, 3.1vw, 3.25rem);
-  --text-heading--line-height: 1.05;
-  --text-heading--letter-spacing: -0.038em;
-  --text-body-lg: clamp(1.025rem, 1.25vw, 1.2rem);
+  --text-display-xl--letter-spacing: -0.03em;
+  --text-display-lg: clamp(2.85rem, 6.8vw, 6.4rem);
+  --text-display-lg--line-height: 0.93;
+  --text-display-lg--letter-spacing: -0.025em;
+  --text-heading: clamp(2.1rem, 4vw, 3.8rem);
+  --text-heading--line-height: 0.98;
+  --text-heading--letter-spacing: -0.02em;
+  --text-body-lg: clamp(1.05rem, 1.3vw, 1.25rem);
   --text-body-lg--line-height: 1.65;
 
   --radius-xs: var(--radius-xs);

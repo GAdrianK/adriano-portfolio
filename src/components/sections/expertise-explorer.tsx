@@ -1,138 +1,95 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
-import { useRef, useState, type KeyboardEvent } from "react";
+import { useState } from "react";
 
 import { expertiseAreas } from "@/content/expertise";
 
-export function ExpertiseExplorer() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const tabsRef = useRef<HTMLDivElement>(null);
-  const activeArea = expertiseAreas.at(activeIndex) ?? expertiseAreas[0]!;
+const fieldNotes: Record<string, string> = {
+  vision:
+    "Sur un plan large TV, le ballon fait parfois moins de 12 pixels. Passer de YOLO11n (640px) à RF-DETR Small (960px) m’a fait gagner près de 10 points de mAP50 sur le dataset H250.",
+  geometry:
+    "Une homographie brute tremble d’une frame à l’autre à cause du flou de bougé caméra. Un filtrage exponentiel temporel (EMA) a réduit cette variance de 54 % sans retarder les trajectoires.",
+  rag:
+    "Un RAG qui répond toujours est un RAG dangereux. Si la couverture de tracking tombe ou qu’aucun événement probant n’existe dans la fenêtre temporelle, le système s’abstient explicitement.",
+  nlp:
+    "Venir de la linguistique formelle aide énormément : avant de jeter un LLM sur un problème, je regarde la structure morpho-syntaxique des requêtes et comment découper une affirmation en faits atomiques vérifiables.",
+  engineering:
+    "PnLCalib est sous licence GPL-2.0 alors que VISION-BALLING est en Apache-2.0. Plutôt que de violer la licence ou d’abandonner le modèle, je l’ai isolé dans un sous-processus hermétique qui échange uniquement des JSON.",
+};
 
-  function handleKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
-    const keys = [
-      "ArrowRight",
-      "ArrowDown",
-      "ArrowLeft",
-      "ArrowUp",
-      "Home",
-      "End",
-    ];
-    if (!keys.includes(event.key)) return;
-    event.preventDefault();
-    let nextIndex = activeIndex;
-    if (event.key === "ArrowRight" || event.key === "ArrowDown")
-      nextIndex = (activeIndex + 1) % expertiseAreas.length;
-    if (event.key === "ArrowLeft" || event.key === "ArrowUp")
-      nextIndex =
-        (activeIndex - 1 + expertiseAreas.length) % expertiseAreas.length;
-    if (event.key === "Home") nextIndex = 0;
-    if (event.key === "End") nextIndex = expertiseAreas.length - 1;
-    setActiveIndex(nextIndex);
-    tabsRef.current
-      ?.querySelectorAll<HTMLButtonElement>('[role="tab"]')
-      [nextIndex]?.focus();
-  }
+export function ExpertiseExplorer() {
+  const [openId, setOpenId] = useState<string>(expertiseAreas[0]!.id);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[0.65fr_1.35fr] lg:gap-8">
-      <div
-        ref={tabsRef}
-        role="tablist"
-        aria-label="Domaines techniques"
-        aria-orientation="vertical"
-        className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:gap-0 lg:overflow-visible lg:border-t lg:border-border lg:pb-0"
-      >
-        {expertiseAreas.map((area, index) => (
-          <button
+    <div className="border-t-2 border-foreground">
+      {expertiseAreas.map((area, index) => {
+        const isOpen = area.id === openId;
+        const note = fieldNotes[area.id];
+
+        return (
+          <div
             key={area.id}
-            id={`expertise-tab-${area.id}`}
-            type="button"
-            role="tab"
-            aria-selected={index === activeIndex}
-            aria-controls={`expertise-panel-${area.id}`}
-            tabIndex={index === activeIndex ? 0 : -1}
-            onClick={() => setActiveIndex(index)}
-            onKeyDown={handleKeyDown}
-            className="group relative min-w-fit overflow-hidden border border-border px-4 py-3.5 text-left transition-colors hover:text-foreground lg:w-full lg:border-x-0 lg:border-t-0 lg:px-5 lg:py-4"
+            className="border-b border-foreground/30 transition-colors"
           >
-            {index === activeIndex && (
-              <motion.span
-                layoutId="expertise-active"
-                className="absolute inset-y-0 left-0 w-0.5 bg-primary"
-                transition={{ type: "spring", stiffness: 420, damping: 38 }}
-              />
-            )}
-            <span className="relative flex items-center justify-between gap-6">
+            <button
+              type="button"
+              onClick={() => setOpenId(area.id)}
+              aria-expanded={isOpen}
+              className="group grid w-full grid-cols-1 gap-2 py-6 text-left sm:grid-cols-12 sm:items-baseline sm:gap-6"
+            >
+              <span className="font-mono text-xs text-primary sm:col-span-2">
+                COUCHE 0{index + 1} · {area.label.toUpperCase()}
+              </span>
               <span
-                className={
-                  index === activeIndex
-                    ? "font-medium text-foreground"
-                    : "text-muted-foreground"
-                }
+                className={`font-editorial text-3xl leading-none transition-colors sm:col-span-8 sm:text-4xl ${
+                  isOpen
+                    ? "italic text-foreground"
+                    : "text-foreground/75 group-hover:text-foreground"
+                }`}
               >
-                {area.label}
+                {area.title}
               </span>
-              <span className="font-mono text-[0.6875rem] text-muted-foreground">
-                0{index + 1}
+              <span className="font-mono text-xs text-muted-foreground sm:col-span-2 sm:text-right">
+                {isOpen ? "[OUVERT −]" : "[LIRE LA NOTE +]"}
               </span>
-            </span>
-          </button>
-        ))}
-      </div>
+            </button>
 
-      <div className="relative min-h-[25rem] overflow-hidden border border-border bg-surface p-6 sm:p-8 lg:p-10">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={activeArea.id}
-            id={`expertise-panel-${activeArea.id}`}
-            role="tabpanel"
-            aria-labelledby={`expertise-tab-${activeArea.id}`}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.16 }}
-          >
-            <div className="flex items-center justify-between border-b border-border pb-3.5 font-mono text-xs tracking-[0.12em] uppercase">
-              <span className="text-primary">0{activeIndex + 1} · {activeArea.label}</span>
-              <span className="text-secondary">Implémenté en production</span>
-            </div>
+            {isOpen && (
+              <div className="grid gap-8 pb-8 sm:grid-cols-12">
+                <div className="sm:col-span-7 sm:col-start-3">
+                  <p className="text-base leading-7 text-foreground/90">
+                    {area.description}
+                  </p>
 
-            <h3 className="mt-6 max-w-2xl text-2xl leading-tight font-semibold tracking-[-0.04em] sm:text-3xl">
-              {activeArea.title}
-            </h3>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
-              {activeArea.description}
-            </p>
+                  <div className="mt-5 space-y-2 border-t border-border pt-4 font-mono text-xs leading-6 text-foreground/85">
+                    {area.capabilities.map((cap) => (
+                      <p key={cap}>→ {cap}</p>
+                    ))}
+                  </div>
 
-            <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              {activeArea.capabilities.map((capability, idx) => (
-                <div
-                  key={capability}
-                  className="grid grid-cols-[1.5rem_1fr] border-t border-border pt-3 text-xs leading-5 text-foreground/90 sm:text-sm"
-                >
-                  <span className="font-mono text-xs text-primary">
-                    {idx + 1}.
-                  </span>
-                  <span>{capability}</span>
+                  <p className="mt-5 font-mono text-xs text-muted-foreground">
+                    <strong className="text-foreground uppercase">
+                      Outils utilisés :
+                    </strong>{" "}
+                    {area.technologies.join(" · ")}
+                  </p>
                 </div>
-              ))}
-            </div>
 
-            <div className="mt-7 flex flex-wrap gap-1.5 border-t border-border pt-5">
-              {activeArea.technologies.map((technology) => (
-                <span
-                  key={technology}
-                  className="border border-border bg-background/60 px-2.5 py-1 font-mono text-[0.6875rem] text-secondary"
-                >
-                  {technology}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
+                {note && (
+                  <div className="sm:col-span-3">
+                    <div className="margin-note">
+                      <p className="font-semibold text-primary uppercase">
+                        [NOTE DE TERRAIN]
+                      </p>
+                      <p className="mt-1.5">{note}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -1,22 +1,36 @@
 import { ExpertiseExplorer } from "@/components/sections/expertise-explorer";
-import { SectionHeading } from "@/components/shared/section-heading";
 
 export function Expertise() {
   return (
     <section
       id="expertise"
       data-navigation-section
-      className="deferred-section scroll-mt-28 border-t border-border py-[var(--section-space)]"
+      className="deferred-section scroll-mt-28 border-t-2 border-foreground py-[var(--section-space)]"
       aria-labelledby="expertise-title"
     >
-      <SectionHeading
-        index="03"
-        eyebrow="Compétences & Stack"
-        title="Vision par ordinateur, géométrie continue et NLP."
-        description="Cinq briques techniques que j’implémente et assemble directement dans mes dépôts, de la détection d’objets au contrôle d’hallucination."
-        titleId="expertise-title"
-      />
-      <div className="mt-12 lg:mt-16">
+      <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+        <div className="lg:col-span-7">
+          <p className="font-mono text-xs tracking-[0.12em] text-primary uppercase">
+            CHAPITRE II — ANATOMIE TECHNIQUE
+          </p>
+          <h2
+            id="expertise-title"
+            className="mt-3 font-editorial text-[clamp(2.5rem,5.5vw,4.8rem)] leading-[0.93] font-normal text-foreground"
+          >
+            Ce que je construis{" "}
+            <span className="italic text-secondary">vraiment</span> sous le
+            capot.
+          </h2>
+        </div>
+
+        <p className="font-mono text-xs leading-6 text-muted-foreground lg:col-span-5">
+          Pas d’arbre de Noël de compétences copiées-collées : voici les cinq
+          couches d’ingénierie qui tournent réellement dans mes dépôts, avec ce
+          que chacune résout — et ses compromis.
+        </p>
+      </div>
+
+      <div className="mt-12">
         <ExpertiseExplorer />
       </div>
     </section>
