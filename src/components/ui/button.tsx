@@ -9,15 +9,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "button-primary text-primary-foreground hover:bg-[#d5c9b8]",
-        glass: "button-glass text-foreground hover:border-primary/40 hover:bg-surface-strong",
-        text: "button-text rounded-sm px-0 text-foreground hover:text-secondary",
+        primary: "button-primary text-primary-foreground hover:bg-[#df8b5d]",
+        glass: "button-glass text-foreground hover:border-primary/45 hover:bg-surface-strong",
+        text: "button-text rounded-sm px-0 text-foreground hover:text-primary",
       },
       size: {
         sm: "h-10 px-4 text-sm",
-        default: "h-12 px-5 text-sm",
-        lg: "h-14 px-7 text-base",
-        icon: "size-12 px-0",
+        default: "h-11 px-5 text-sm",
+        lg: "h-12 px-6 text-sm",
+        icon: "size-11 px-0",
       },
     },
     defaultVariants: {

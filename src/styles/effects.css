@@ -3,7 +3,13 @@
   z-index: -2;
   inset: 0;
   pointer-events: none;
-  background: var(--background);
+  background-color: var(--background);
+  background-image:
+    radial-gradient(circle at 16% 12%, rgb(212 122 73 / 5%), transparent 38%),
+    radial-gradient(circle at 84% 26%, rgb(125 181 148 / 4%), transparent 42%),
+    linear-gradient(to right, rgb(240 237 230 / 1.8%) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(240 237 230 / 1.8%) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 4.5rem 4.5rem, 4.5rem 4.5rem;
 }
 
 .mobile-dock-safe {
@@ -11,7 +17,7 @@
 }
 
 .mobile-menu-surface {
-  background: rgb(17 18 20 / 98%);
+  background: rgb(18 20 18 / 98%);
 }
 
 .hero-ambient {
@@ -40,14 +46,14 @@
 }
 
 .hero-reveal {
-  animation: hero-reveal 460ms var(--ease-out) both;
+  animation: hero-reveal 420ms var(--ease-out) both;
 }
 
-.hero-reveal-delay-1 { animation-delay: 45ms; }
-.hero-reveal-delay-2 { animation-delay: 85ms; }
-.hero-reveal-delay-3 { animation-delay: 125ms; }
-.hero-reveal-delay-4 { animation-delay: 165ms; }
-.hero-reveal-delay-5 { animation-delay: 205ms; }
+.hero-reveal-delay-1 { animation-delay: 40ms; }
+.hero-reveal-delay-2 { animation-delay: 80ms; }
+.hero-reveal-delay-3 { animation-delay: 120ms; }
+.hero-reveal-delay-4 { animation-delay: 160ms; }
+.hero-reveal-delay-5 { animation-delay: 200ms; }
 
 .glass-panel {
   position: relative;
@@ -65,11 +71,11 @@
 }
 
 .glass-panel--navigation {
-  border-color: rgb(199 185 165 / 16%);
-  background: rgb(17 18 20 / 88%);
-  box-shadow: 0 12px 34px rgb(0 0 0 / 16%);
-  backdrop-filter: blur(0.875rem);
-  -webkit-backdrop-filter: blur(0.875rem);
+  border-color: rgb(240 237 230 / 12%);
+  background: rgb(18 20 18 / 90%);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 28%);
+  backdrop-filter: blur(0.75rem);
+  -webkit-backdrop-filter: blur(0.75rem);
 }
 
 .button-primary {
@@ -80,7 +86,7 @@
 
 .button-glass {
   border: 1px solid var(--border);
-  background: transparent;
+  background: rgb(240 237 230 / 2%);
   box-shadow: none;
 }
 
@@ -104,7 +110,7 @@
 
 @media (max-width: 48rem) {
   .glass-panel--navigation {
-    backdrop-filter: blur(0.625rem);
-    -webkit-backdrop-filter: blur(0.625rem);
+    backdrop-filter: blur(0.5rem);
+    -webkit-backdrop-filter: blur(0.5rem);
   }
 }

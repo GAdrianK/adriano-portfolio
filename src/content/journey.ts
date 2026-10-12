@@ -1,27 +1,26 @@
 export const journeySteps = [
   {
-    number: "01",
-    label: "Fondations logicielles",
-    title: "Structurer l’application",
-    text: "Python, JavaScript, API FastAPI et tests pytest constituent le socle logiciel du prototype.",
+    number: "2024 — Présent",
+    label: "Sorbonne Nouvelle · Paris Nanterre · INALCO",
+    title: "Master PluriTAL — Traitement Automatique du Langage",
+    text: "Spécialisation en NLP, recherche d’information, apprentissage automatique, ingénierie de corpus et modèles de langage (LLM), avec une approche orientée évaluation et systèmes hybrides.",
   },
   {
-    number: "02",
-    label: "Langage & recherche",
-    title: "Indexer la documentation",
-    text: "SBERT, TF-IDF et FAISS relient la recherche sémantique et lexicale à une base documentaire locale.",
+    number: "2025 — 2026",
+    label: "Recherche d’information & LLMOps",
+    title: "Du RAG hybride (Football Intelligence) à l’évaluation (Evalia)",
+    text: "Développement d’un moteur RAG hybride Qdrant + BM25 avec Parent Document Retriever SQLite et re-ranking FlashRank, suivi d’Evalia pour automatiser les tests de fidélité (LLM-as-a-Judge) en CI/CD.",
   },
   {
-    number: "03",
-    label: "RAG & garde-fous",
-    title: "Encadrer la réponse",
-    text: "LangChain organise la chaîne RAG et les garde-fous limitent les réponses hors contexte.",
+    number: "2026",
+    label: "Vision par ordinateur & Multimodalité",
+    title: "Conception de VISION-BALLING (v0.9.0-rc1)",
+    text: "Extension vers la vision par ordinateur (RF-DETR, BoT-SORT, PRTReID) et la calibration homographique 2D (PnLCalib) pour ancrer le moteur RAG directement sur des faits géométriques extraits de la vidéo.",
   },
   {
-    number: "04",
-    label: "Restitution",
-    title: "Livrer un résultat exploitable",
-    text: "L’interface JavaScript présente la réponse et ReportLab permet son export sous forme de rapport PDF.",
+    number: "2022 — 2025",
+    label: "Sorbonne Université · Paris",
+    title: "Licence LLCER Italien & Linguistique",
+    text: "Formation initiale en linguistique formelle, analyse du discours et structures grammaticales — socle qui nourrit aujourd’hui mon travail sur la sémantique et la vérification factuelle des textes générés.",
   },
 ] as const;
-

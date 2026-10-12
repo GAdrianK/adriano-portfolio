@@ -11,13 +11,13 @@ export const navigationItems = [
   },
   {
     id: "expertise",
-    label: "Expertise",
-    shortLabel: "Profil",
+    label: "Compétences",
+    shortLabel: "Stack",
   },
   {
     id: "solutions",
-    label: "Solutions",
-    shortLabel: "Solutions",
+    label: "Méthode",
+    shortLabel: "Méthode",
   },
   {
     id: "contact",
@@ -29,4 +29,3 @@ export const navigationItems = [
 export type SectionId = (typeof navigationItems)[number]["id"];
 
 export const sectionIds = navigationItems.map((item) => item.id);
-

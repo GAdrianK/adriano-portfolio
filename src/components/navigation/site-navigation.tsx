@@ -177,10 +177,10 @@ function DesktopNavbar({ activeSection, onOpenQuick }: { activeSection: SectionI
           >
             <a
               href="#contact"
-              aria-label="Parlons de votre projet"
+              aria-label="Me contacter"
               aria-current={activeSection === "contact" ? "location" : undefined}
             >
-              <span>{isScrolled ? "Contact" : "Parlons de votre projet"}</span>
+              <span>{isScrolled ? "Contact" : "Me contacter"}</span>
               <ArrowUpRight
                 aria-hidden="true"
                 className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
@@ -224,11 +224,12 @@ function QuickNavigation({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
       {isOpen && (
         <motion.div className="fixed inset-0 z-[70] grid place-items-start bg-black/55 px-4 pt-[12svh] backdrop-blur-sm sm:place-items-center sm:pt-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.16 }} onPointerDown={onClose}>
           <motion.div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="quick-navigation-title" className="w-full max-w-lg" initial={{ opacity: 0, y: 10, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 6, scale: 0.98 }} transition={{ duration: 0.18 }} onPointerDown={(event) => event.stopPropagation()}>
-            <GlassPanel variant="elevated" padding="sm" radius="xl" className="mobile-menu-surface">
-              <div className="relative z-10 flex items-center gap-3 border-b border-border px-2 pb-4"><Search className="size-4 text-secondary" aria-hidden="true" /><div><h2 id="quick-navigation-title" className="text-sm font-semibold">Navigation rapide</h2><p className="mt-0.5 text-xs text-muted-foreground">Choisissez une section ou une page.</p></div><button type="button" onClick={onClose} aria-label="Fermer la navigation rapide" className="ml-auto grid size-9 place-items-center rounded-md text-muted-foreground outline-none hover:bg-white/8 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><X className="size-4" aria-hidden="true" /></button></div>
+            <GlassPanel variant="elevated" padding="sm" radius="lg" className="mobile-menu-surface">
+              <div className="relative z-10 flex items-center gap-3 border-b border-border px-2 pb-4"><Search className="size-4 text-primary" aria-hidden="true" /><div><h2 id="quick-navigation-title" className="text-sm font-semibold">Navigation rapide</h2><p className="mt-0.5 text-xs text-muted-foreground">Sections et études de cas.</p></div><button type="button" onClick={onClose} aria-label="Fermer la navigation rapide" className="ml-auto grid size-9 place-items-center rounded-sm text-muted-foreground outline-none hover:bg-white/8 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><X className="size-4" aria-hidden="true" /></button></div>
               <nav aria-label="Navigation rapide" className="mt-2 grid gap-1">
-                {navigationItems.map((item, index) => <a key={item.id} href={`#${item.id}`} onClick={onClose} className="flex min-h-12 items-center justify-between rounded-md px-3 text-sm text-foreground outline-none transition-colors hover:bg-white/8 focus-visible:bg-white/8 focus-visible:ring-2 focus-visible:ring-ring"><span>{item.label}</span><span className="font-mono text-[0.625rem] text-muted-foreground">0{index + 1}</span></a>)}
-                <Link href="/design-system" onClick={onClose} className="mt-1 flex min-h-12 items-center justify-between rounded-md border-t border-border px-3 pt-3 text-sm text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><span>Design system</span><ArrowUpRight className="size-4" aria-hidden="true" /></Link>
+                {navigationItems.map((item, index) => <a key={item.id} href={`#${item.id}`} onClick={onClose} className="flex min-h-11 items-center justify-between rounded-sm px-3 text-sm text-foreground outline-none transition-colors hover:bg-white/8 focus-visible:bg-white/8 focus-visible:ring-2 focus-visible:ring-ring"><span>{item.label}</span><span className="font-mono text-[0.625rem] text-muted-foreground">0{index + 1}</span></a>)}
+                <Link href="/projets/vision-balling" onClick={onClose} className="mt-1 flex min-h-11 items-center justify-between rounded-sm border-t border-border px-3 pt-2 text-sm text-secondary outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><span>Étude VISION-BALLING (v0.9.0-rc1)</span><ArrowUpRight className="size-4" aria-hidden="true" /></Link>
+                <Link href="/projets/football-intelligence-assistant" onClick={onClose} className="flex min-h-11 items-center justify-between rounded-sm px-3 text-sm text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><span>Étude Football Intelligence Assistant</span><ArrowUpRight className="size-4" aria-hidden="true" /></Link>
               </nav>
             </GlassPanel>
           </motion.div>
