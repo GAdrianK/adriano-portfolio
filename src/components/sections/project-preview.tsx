@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play, RotateCcw } from "lucide-react";
 
+import { useLanguage } from "@/lib/i18n";
+
 type LiveEvidenceEvent = {
   id: string;
   startFrame: number;
@@ -10,15 +12,19 @@ type LiveEvidenceEvent = {
   startTime: number;
   endTime: number;
   family: "BALL_TRANSFER" | "PRESSURE_EPISODE" | "POSSESSION_CHANGE" | "COUNTERPRESS_CANDIDATE";
-  level: "NIVEAU 1 · FAIT PHYSIQUE" | "NIVEAU 3 · CANDIDAT TACTIQUE";
+  levelFr: string;
+  levelEn: string;
   team: "TEAM_0" | "TEAM_1";
   confidence: number;
   pressurePeak?: number;
   minDistM?: number;
   ballPos: { x: number; y: number };
   summaryFr: string;
+  summaryEn: string;
   ragExcerptFr: string;
+  ragExcerptEn: string;
   authorNoteFr: string;
+  authorNoteEn: string;
 };
 
 const SNMOT068_EVENTS: ReadonlyArray<LiveEvidenceEvent> = [
@@ -29,16 +35,23 @@ const SNMOT068_EVENTS: ReadonlyArray<LiveEvidenceEvent> = [
     startTime: 2.0,
     endTime: 2.15,
     family: "BALL_TRANSFER",
-    level: "NIVEAU 1 · FAIT PHYSIQUE",
+    levelFr: "NIVEAU 1 · FAIT PHYSIQUE",
+    levelEn: "LEVEL 1 · PHYSICAL FACT",
     team: "TEAM_0",
     confidence: 0.86,
     ballPos: { x: 48, y: 31 },
     summaryFr:
       "Transmission courte TEAM_0 interceptée (distance : 1.61 m, gain longitudinal : +0.0 m).",
+    summaryEn:
+      "Short pass by TEAM_0 intercepted (distance: 1.61 m, longitudinal advance: +0.0 m).",
     ragExcerptFr:
       "À t = 2.08s, la tentative de sortie verticale de TEAM_0 est immédiatement coupée dans le cœur du jeu [event:pass_53_55_TEAM_0_PASS_INTERCEPTED].",
+    ragExcerptEn:
+      "At t = 2.08s, TEAM_0’s attempt at vertical build-up is immediately cut off in central midfield [event:pass_53_55_TEAM_0_PASS_INTERCEPTED].",
     authorNoteFr:
       "Note labo : le détecteur de passes V1 dépend directement de la stabilité d’ID BoT-SORT sur le porteur.",
+    authorNoteEn:
+      "Lab note: The V1 pass detector directly hinges on BoT-SORT ID stability on the ball carrier.",
   },
   {
     id: "trans_55_80_TEAM_0_COUNTERPRESS_CANDIDATE",
@@ -47,7 +60,8 @@ const SNMOT068_EVENTS: ReadonlyArray<LiveEvidenceEvent> = [
     startTime: 2.16,
     endTime: 3.4,
     family: "COUNTERPRESS_CANDIDATE",
-    level: "NIVEAU 3 · CANDIDAT TACTIQUE",
+    levelFr: "NIVEAU 3 · CANDIDAT TACTIQUE",
+    levelEn: "LEVEL 3 · TACTICAL CANDIDATE",
     team: "TEAM_0",
     confidence: 0.6,
     pressurePeak: 0.6,
@@ -55,10 +69,16 @@ const SNMOT068_EVENTS: ReadonlyArray<LiveEvidenceEvent> = [
     ballPos: { x: 51, y: 35 },
     summaryFr:
       "Perte de balle frame 55 suivie d’un engagement immédiat au contre-pressing (Δt = 1.04s, CounterpressScore : 0.60, ligne défensive à 4.01 m/s).",
+    summaryEn:
+      "Turnover at frame 55 followed by immediate counter-pressing engagement (Δt = 1.04s, CounterpressScore: 0.60, defensive line at 4.01 m/s).",
     ragExcerptFr:
       "Dès la perte à 2.16s, les signaux cinématiques sont compatibles avec un candidat de contre-pressing immédiat [event:trans_55_80_TEAM_0_COUNTERPRESS_CANDIDATE].",
+    ragExcerptEn:
+      "Upon turnover at 2.16s, kinematic signals match an immediate counter-pressing candidate [event:trans_55_80_TEAM_0_COUNTERPRESS_CANDIDATE].",
     authorNoteFr:
       "Pourquoi « Candidat Niveau 3 » ? Parce que je refuse d’affirmer une intention humaine certifiée quand je n’ai que des vecteurs de vitesse : le RAG le qualifie donc explicitement comme candidat diagnostique.",
+    authorNoteEn:
+      "Why 'Level 3 Candidate'? Because I refuse to assert human tactical intent with only velocity vectors: the RAG thus explicitly labels it as an exploratory candidate.",
   },
   {
     id: "press_53_243_TEAM_1",
@@ -67,7 +87,8 @@ const SNMOT068_EVENTS: ReadonlyArray<LiveEvidenceEvent> = [
     startTime: 3.41,
     endTime: 7.79,
     family: "PRESSURE_EPISODE",
-    level: "NIVEAU 1 · FAIT PHYSIQUE",
+    levelFr: "NIVEAU 1 · FAIT PHYSIQUE",
+    levelEn: "LEVEL 1 · PHYSICAL FACT",
     team: "TEAM_1",
     confidence: 0.44,
     pressurePeak: 0.76,
@@ -75,10 +96,16 @@ const SNMOT068_EVENTS: ReadonlyArray<LiveEvidenceEvent> = [
     ballPos: { x: 55, y: 39 },
     summaryFr:
       "Séquence prolongée de harcèlement défensif par TEAM_1 (durée : 7.60s, PressureIndex moyen : 0.44, pic : 0.76, distance min : 0.52 m, vitesse fermeture : 3.65 m/s).",
+    summaryEn:
+      "Prolonged defensive harassment episode by TEAM_1 (duration: 7.60s, mean PressureIndex: 0.44, peak: 0.76, min distance: 0.52 m, closing speed: 3.65 m/s).",
     ragExcerptFr:
       "TEAM_1 maintient un harcèlement continu réduisant l’espace du porteur jusqu’à 0.52 m [event:press_53_243_TEAM_1].",
+    ragExcerptEn:
+      "TEAM_1 sustains continuous pressure restricting ball-carrier radius down to 0.52 m [event:press_53_243_TEAM_1].",
     authorNoteFr:
       "EXP-23 : aucun seuil binaire « pressé / non pressé ». Le score PressureIndex ∈ [0, 1] varie continûment avec la distance et la vitesse d’approche.",
+    authorNoteEn:
+      "EXP-23: No binary 'pressed / not pressed' threshold. The continuous PressureIndex ∈ [0, 1] scales smoothly with proximity and closing velocity.",
   },
   {
     id: "press_196_207_TEAM_0",
@@ -87,7 +114,8 @@ const SNMOT068_EVENTS: ReadonlyArray<LiveEvidenceEvent> = [
     startTime: 7.8,
     endTime: 9.87,
     family: "PRESSURE_EPISODE",
-    level: "NIVEAU 1 · FAIT PHYSIQUE",
+    levelFr: "NIVEAU 1 · FAIT PHYSIQUE",
+    levelEn: "LEVEL 1 · PHYSICAL FACT",
     team: "TEAM_0",
     confidence: 0.37,
     pressurePeak: 0.54,
@@ -95,10 +123,16 @@ const SNMOT068_EVENTS: ReadonlyArray<LiveEvidenceEvent> = [
     ballPos: { x: 60, y: 29 },
     summaryFr:
       "Pression défensive exercée par TEAM_0 en bloc haut (ligne défensive moyenne à 65.7 m du but, pic PressureIndex : 0.54, défenseur à 1.68 m).",
+    summaryEn:
+      "Defensive pressure applied by TEAM_0 in a high block (mean defensive line at 65.7 m from goal, peak PressureIndex: 0.54, nearest defender at 1.68 m).",
     ragExcerptFr:
       "Positionnée en bloc haut (65.7 m), TEAM_0 resserre son enveloppe convexe (219.9 m²) autour du porteur [event:press_196_207_TEAM_0].",
+    ragExcerptEn:
+      "Holding a high block (65.7 m), TEAM_0 constricts its convex hull (219.9 m²) around the ball carrier [event:press_196_207_TEAM_0].",
     authorNoteFr:
       "EXP-21 : impossible de dire si c’est un 4-3-3 ou un 4-4-2 (la caméra TV coupe 40 % du terrain). Par contre, la hauteur de ligne à 65.7 m est un fait géométrique irréfutable.",
+    authorNoteEn:
+      "EXP-21: Impossible to assert a rigid 4-3-3 or 4-4-2 (broadcast framing crops 40% of the pitch). However, line height at 65.7 m is an irrefutable geometric fact.",
   },
   {
     id: "poss_change_256_TEAM_0_to_TEAM_1",
@@ -107,7 +141,8 @@ const SNMOT068_EVENTS: ReadonlyArray<LiveEvidenceEvent> = [
     startTime: 9.88,
     endTime: 12.39,
     family: "POSSESSION_CHANGE",
-    level: "NIVEAU 1 · FAIT PHYSIQUE",
+    levelFr: "NIVEAU 1 · FAIT PHYSIQUE",
+    levelEn: "LEVEL 1 · PHYSICAL FACT",
     team: "TEAM_1",
     confidence: 0.48,
     pressurePeak: 0.66,
@@ -115,10 +150,16 @@ const SNMOT068_EVENTS: ReadonlyArray<LiveEvidenceEvent> = [
     ballPos: { x: 63, y: 44 },
     summaryFr:
       "Changement de possession à la frame 256 (10.20s) sous pression de TEAM_1 (pic : 0.66), suivi d’une transition neutre (CounterpressScore : 0.46).",
+    summaryEn:
+      "Possession turnover at frame 256 (10.20s) under pressure from TEAM_1 (peak: 0.66), followed by neutral transition (CounterpressScore: 0.46).",
     ragExcerptFr:
       "La pression soutenue (pic 0.66) provoque une rupture de possession à 10.20s (frame 256) [event:poss_change_256_TEAM_0_to_TEAM_1].",
+    ragExcerptEn:
+      "Sustained pressure (peak 0.66) triggers a possession breakdown at 10.20s (frame 256) [event:poss_change_256_TEAM_0_to_TEAM_1].",
     authorNoteFr:
       "EXP-22 : Possession V2 ajoute un gating adaptatif + hystérésis temporelle (+21 % de F1 sur le porteur pendant les duels).",
+    authorNoteEn:
+      "EXP-22: Possession V2 introduces adaptive gating + temporal hysteresis (+21% F1 on ball-carrier identification during contested duels).",
   },
   {
     id: "press_311_350_TEAM_1",
@@ -127,7 +168,8 @@ const SNMOT068_EVENTS: ReadonlyArray<LiveEvidenceEvent> = [
     startTime: 12.4,
     endTime: 14.0,
     family: "PRESSURE_EPISODE",
-    level: "NIVEAU 1 · FAIT PHYSIQUE",
+    levelFr: "NIVEAU 1 · FAIT PHYSIQUE",
+    levelEn: "LEVEL 1 · PHYSICAL FACT",
     team: "TEAM_1",
     confidence: 0.93,
     pressurePeak: 1.0,
@@ -135,10 +177,16 @@ const SNMOT068_EVENTS: ReadonlyArray<LiveEvidenceEvent> = [
     ballPos: { x: 68, y: 48 },
     summaryFr:
       "Saturation maximale de pression (PressureIndex pic : 1.00, proximité défensive : 0.20 m) entraînant deux pertes consécutives aux frames 327 (conf: 0.93) et 341 (conf: 0.97).",
+    summaryEn:
+      "Maximal pressure saturation (PressureIndex peak: 1.00, defensive proximity: 0.20 m) triggering two consecutive turnovers at frames 327 (conf: 0.93) and 341 (conf: 0.97).",
     ragExcerptFr:
       "En fin de séquence (12.40s–13.96s), l’étau se referme à 0.20 m (PressureIndex = 1.00), forçant deux pertes coup sur coup [event:press_311_350_TEAM_1].",
+    ragExcerptEn:
+      "At sequence end (12.40s–13.96s), the perimeter closes to 0.20 m (PressureIndex = 1.00), forcing back-to-back turnovers [event:press_311_350_TEAM_1].",
     authorNoteFr:
       "EXP-26 : 100 % des faits cités ici sont extraits de runs/analysis/SNMOT-068/tactical_events.json. Zéro invention du modèle.",
+    authorNoteEn:
+      "EXP-26: 100% of claims cited here are extracted from runs/analysis/SNMOT-068/tactical_events.json. Zero LLM invention.",
   },
 ];
 
@@ -147,6 +195,7 @@ export function ProjectPreview({
 }: {
   variant?: "vision-balling" | "fia";
 }) {
+  const { locale, t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [currentTime, setCurrentTime] = useState(12.6);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -189,75 +238,60 @@ export function ProjectPreview({
       <div className="paper-sheet p-5 sm:p-7">
         <header className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-foreground pb-3 font-mono text-xs uppercase">
           <span className="font-semibold text-foreground">
-            FIG. 02 — ARCHITECTURE HYBRIDE (FOOTBALL INTELLIGENCE ASSISTANT)
+            {t("fia_prev.fig")}
           </span>
-          <span className="ink-stamp">SOCLE RAG HYBRIDE</span>
+          <span className="ink-stamp">{t("fia_prev.stamp")}</span>
         </header>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-12">
           <div className="space-y-4 lg:col-span-7">
             <div className="border border-foreground bg-background p-4">
               <p className="font-mono text-[0.6875rem] text-primary uppercase">
-                1. Question brute d’un coach → Query Rewriter
+                {t("fia_prev.q_label")}
               </p>
               <p className="mt-1.5 font-editorial text-2xl italic text-foreground">
-                « Comment fixer le demi-espace adverse avec une sortie à trois
-                (Lavolpiana) face à un pressing à deux pointes ? »
+                {t("fia_prev.q_text")}
               </p>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="border border-foreground/40 bg-background p-3.5">
                 <p className="font-mono text-[0.6875rem] font-semibold text-secondary uppercase">
-                  70 % Dense (Qdrant)
+                  {t("fia_prev.dense_title")}
                 </p>
                 <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                  Capture les concepts tactiques proches par similarité cosinus
-                  sur les chunks enfants.
+                  {t("fia_prev.dense_desc")}
                 </p>
               </div>
               <div className="border border-foreground/40 bg-background p-3.5">
                 <p className="font-mono text-[0.6875rem] font-semibold text-primary uppercase">
-                  30 % Lexical (BM25 Python)
+                  {t("fia_prev.bm25_title")}
                 </p>
                 <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                  Ne rate jamais les mots rares (« Lavolpiana », « demi-espace »,
-                  noms de coachs) que les embeddings lissent.
+                  {t("fia_prev.bm25_desc")}
                 </p>
               </div>
             </div>
 
             <div className="border-l-2 border-secondary bg-secondary/8 p-3.5 font-mono text-xs">
-              <span className="font-semibold text-secondary">
-                → PARENT DOCUMENT STORE (SQLite) + FLASHRANK :
-              </span>{" "}
-              Au lieu de donner un mini-fragment coupé au LLM, on remonte le
-              chapitre parent entier depuis SQLite et on le reclasse avec un
-              Cross-Encoder (ms-marco-MiniLM-L-6-v2).
+              {t("fia_prev.parent_store")}
             </div>
           </div>
 
           <div className="flex flex-col justify-between border-t border-border pt-4 lg:col-span-5 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-6">
             <div className="margin-note">
               <p className="font-semibold text-primary uppercase">
-                [POURQUOI CE PROJET A TOUT DÉCLENCHÉ]
+                {t("fia_prev.why_title")}
               </p>
-              <p className="mt-1.5">
-                C’est en construisant ce premier RAG que j’ai compris une chose :
-                un RAG sur de la théorie tactique, c’est bien. Mais si tu lui
-                demandes ce qui s’est passé à la 13e seconde d’un vrai match
-                sans capteurs vidéo, il invente. C’est pour ça que j’ai ensuite
-                créé <strong>VISION-BALLING</strong>.
-              </p>
+              <p className="mt-1.5">{t("fia_prev.why_text")}</p>
             </div>
 
             <div className="mt-6 border border-foreground bg-background p-3.5 font-mono text-[0.6875rem] leading-5">
               <p className="font-semibold text-foreground uppercase">
-                Briques livrées dans le dépôt :
+                {t("fia_prev.briques_title")}
               </p>
               <p className="mt-1 text-muted-foreground">
-                FastAPI asynchrone · Qdrant · BM25 from scratch · SQLite Parent
-                Store · FlashRank · Export PDF ReportLab · Tests pytest
+                {t("fia_prev.briques_text")}
               </p>
             </div>
           </div>
@@ -269,23 +303,23 @@ export function ProjectPreview({
   return (
     <div
       className="paper-sheet p-4 sm:p-6"
-      aria-label="Établi interactif VISION-BALLING : scrubber vidéo SNMOT-068 et preuves tactiques synchronisées"
+      aria-label="Établi interactif VISION-BALLING"
     >
       {/* Top Workbench Bar */}
       <header className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-foreground pb-3">
         <div className="flex flex-wrap items-center gap-2.5 font-mono text-xs">
           <span className="bg-foreground px-2 py-0.5 font-semibold text-background">
-            ÉTABLI LIVE
+            {t("workbench.live")}
           </span>
           <span className="font-semibold text-foreground">
-            SÉQUENCE SOCCERNET SNMOT-068
+            {t("workbench.sequence")}
           </span>
           <span className="text-muted-foreground">
-            — FRAME {String(currentFrame).padStart(3, "0")} / 350 ({currentTime.toFixed(2)}s)
+            — {t("workbench.frame")} {String(currentFrame).padStart(3, "0")} / 350 ({currentTime.toFixed(2)}s)
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="pitch-stamp">100% CLAIMS SOURCÉS</span>
+          <span className="pitch-stamp">{t("workbench.claims_stamp")}</span>
         </div>
       </header>
 
@@ -328,11 +362,11 @@ export function ProjectPreview({
               >
                 {isPlaying ? (
                   <>
-                    <Pause className="size-3" /> Pause
+                    <Pause className="size-3" /> {t("workbench.pause")}
                   </>
                 ) : (
                   <>
-                    <Play className="size-3" /> Lire
+                    <Play className="size-3" /> {t("workbench.play")}
                   </>
                 )}
               </button>
@@ -340,16 +374,16 @@ export function ProjectPreview({
               <button
                 type="button"
                 onClick={() => seekTo(2.16)}
-                title="Revenir au début des événements"
+                title={t("workbench.rewind")}
                 className="flex size-8 items-center justify-center border border-foreground bg-surface text-foreground hover:border-primary hover:text-primary"
-                aria-label="Revenir à 2.16s"
+                aria-label="2.16s"
               >
                 <RotateCcw className="size-3.5" />
               </button>
 
               <div className="flex-1">
                 <label htmlFor="snmot-scrubber" className="sr-only">
-                  Scrubber la séquence vidéo de 0 à 14 secondes
+                  {t("workbench.scrubber_label")}
                 </label>
                 <input
                   id="snmot-scrubber"
@@ -371,7 +405,7 @@ export function ProjectPreview({
             {/* Clickable Timestamp Evidence Markers */}
             <div className="mt-3 border-t border-border pt-2.5">
               <p className="mb-2 font-mono text-[0.625rem] tracking-[0.08em] text-muted-foreground uppercase">
-                ↓ Cliquer sur un moment clé ou déplacer le curseur pour inspecter la preuve :
+                {t("workbench.pins_hint")}
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {SNMOT068_EVENTS.map((ev) => {
@@ -402,7 +436,7 @@ export function ProjectPreview({
           <div className="border-2 border-foreground bg-background p-4">
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-2 font-mono text-[0.625rem] uppercase">
               <span className="font-semibold text-primary">
-                {activeEvent.level}
+                {locale === "fr" ? activeEvent.levelFr : activeEvent.levelEn}
               </span>
               <span className="bg-secondary/15 px-1.5 py-0.5 font-semibold text-secondary">
                 CONF: {(activeEvent.confidence * 100).toFixed(0)}% · FRAMES{" "}
@@ -415,17 +449,17 @@ export function ProjectPreview({
             </p>
 
             <p className="mt-2 text-xs leading-5 text-foreground/90 sm:text-sm">
-              {activeEvent.summaryFr}
+              {locale === "fr" ? activeEvent.summaryFr : activeEvent.summaryEn}
             </p>
 
             {/* Mini 2D Metric Pitch Radar Synchronized to Active Event */}
             <div className="mt-3 border border-[#1e4d33] bg-[#163825] p-2.5 text-[#f3ede2]">
               <div className="mb-1.5 flex items-center justify-between font-mono text-[0.5625rem] uppercase">
-                <span>PROJECTION SOL 105m × 68m (PnLCalib)</span>
+                <span>{t("workbench.radar_title")}</span>
                 <span className="text-[#a3e6be]">
                   {activeEvent.pressurePeak
-                    ? `PressureIndex Pic : ${activeEvent.pressurePeak.toFixed(2)}`
-                    : "Reproj err : 3.2 px"}
+                    ? `${t("workbench.pressure_peak")} ${activeEvent.pressurePeak.toFixed(2)}`
+                    : t("workbench.reproj_err")}
                 </span>
               </div>
               <svg
@@ -482,18 +516,18 @@ export function ProjectPreview({
           <div className="space-y-3">
             <div className="border-l-2 border-secondary bg-background p-3">
               <p className="font-mono text-[0.625rem] font-semibold text-secondary uppercase">
-                PHRASE GÉNÉRÉE PAR LE RAG ANCRÉ :
+                {t("workbench.rag_label")}
               </p>
               <p className="mt-1 font-editorial text-lg leading-snug text-foreground">
-                « {activeEvent.ragExcerptFr} »
+                « {locale === "fr" ? activeEvent.ragExcerptFr : activeEvent.ragExcerptEn} »
               </p>
             </div>
 
             <div className="margin-note">
               <p className="font-semibold text-primary uppercase">
-                [ANNOTATION D’ADRIANO]
+                {t("workbench.adriano_note")}
               </p>
-              <p className="mt-1">{activeEvent.authorNoteFr}</p>
+              <p className="mt-1">{locale === "fr" ? activeEvent.authorNoteFr : activeEvent.authorNoteEn}</p>
             </div>
           </div>
         </div>

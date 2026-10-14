@@ -25,19 +25,20 @@ import {
 } from "@/content/navigation";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { useScrollState } from "@/hooks/use-scroll-state";
+import { useLanguage } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 const desktopItems = navigationItems.filter((item) => item.id !== "contact");
 
-const mobileItems: ReadonlyArray<{
+const mobileNavItems: ReadonlyArray<{
   id: SectionId;
-  label: string;
+  labelKey: string;
   icon: LucideIcon;
 }> = [
-  { id: "presentation", label: "Accueil", icon: House },
-  { id: "projets", label: "Projets", icon: LayoutGrid },
-  { id: "expertise", label: "Profil", icon: UserRound },
-  { id: "contact", label: "Contact", icon: MessageCircle },
+  { id: "presentation", labelKey: "nav.mob_home", icon: House },
+  { id: "projets", labelKey: "nav.mob_projects", icon: LayoutGrid },
+  { id: "expertise", labelKey: "nav.mob_profile", icon: UserRound },
+  { id: "contact", labelKey: "nav.mob_contact", icon: MessageCircle },
 ];
 
 const navigationKeys = new Set(["ArrowLeft", "ArrowRight", "Home", "End"]);
@@ -94,6 +95,7 @@ function ActiveIndicator({ layoutId }: { layoutId: string }) {
 function DesktopNavbar({ activeSection, onOpenQuick }: { activeSection: SectionId; onOpenQuick: () => void }) {
   const isScrolled = useScrollState();
   const shouldReduceMotion = useReducedMotion();
+  const { locale, toggleLocale, t } = useLanguage();
 
   return (
     <motion.header
@@ -133,6 +135,7 @@ function DesktopNavbar({ activeSection, onOpenQuick }: { activeSection: SectionI
           <div className="flex items-center">
             {desktopItems.map((item) => {
               const isActive = activeSection === item.id;
+              const label = t(`nav.${item.id}`);
 
               return (
                 <a
@@ -149,21 +152,35 @@ function DesktopNavbar({ activeSection, onOpenQuick }: { activeSection: SectionI
                   {isActive && (
                     <ActiveIndicator layoutId="desktop-active-section" />
                   )}
-                  <span className="relative z-10">{item.label}</span>
+                  <span className="relative z-10">{label}</span>
                 </a>
               );
             })}
           </div>
 
+          {/* Quick Search Trigger */}
           <button
             type="button"
             onClick={onOpenQuick}
-            aria-label="Ouvrir la navigation rapide"
+            aria-label={t("nav.quick_title")}
             aria-keyshortcuts="Control+K Meta+K"
             className="ml-1 hidden h-8 items-center gap-1.5 rounded-sm border border-border bg-transparent px-2.5 font-mono text-[0.625rem] text-muted-foreground outline-none transition-colors hover:bg-surface-strong hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/25 xl:flex"
           >
             <Search className="size-3" aria-hidden="true" />
             <span>⌘K</span>
+          </button>
+
+          {/* Tactile Language Switcher FR / EN */}
+          <button
+            type="button"
+            onClick={toggleLocale}
+            aria-label={locale === "fr" ? "Passer le site en anglais" : "Switch site to French"}
+            title={locale === "fr" ? "Passer en anglais (EN)" : "Switch to French (FR)"}
+            className="ml-1 flex h-8 items-center gap-1 rounded-sm border border-border bg-transparent px-2.5 font-mono text-[0.6875rem] font-semibold tracking-wider text-foreground transition-colors hover:bg-surface-strong focus-visible:ring-[3px] focus-visible:ring-ring/25"
+          >
+            <span className={cn(locale === "fr" ? "text-primary font-bold underline decoration-primary decoration-2 underline-offset-2" : "text-muted-foreground")}>FR</span>
+            <span className="text-muted-foreground/40">/</span>
+            <span className={cn(locale === "en" ? "text-primary font-bold underline decoration-primary decoration-2 underline-offset-2" : "text-muted-foreground")}>EN</span>
           </button>
 
           <Button
@@ -177,10 +194,10 @@ function DesktopNavbar({ activeSection, onOpenQuick }: { activeSection: SectionI
           >
             <a
               href="#contact"
-              aria-label="Me contacter"
+              aria-label={t("nav.contact_cta")}
               aria-current={activeSection === "contact" ? "location" : undefined}
             >
-              <span>{isScrolled ? "Contact" : "Me contacter"}</span>
+              <span>{isScrolled ? t("nav.contact_short") : t("nav.contact_cta")}</span>
               <ArrowUpRight
                 aria-hidden="true"
                 className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
@@ -195,6 +212,7 @@ function DesktopNavbar({ activeSection, onOpenQuick }: { activeSection: SectionI
 
 function QuickNavigation({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const dialogRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -225,11 +243,11 @@ function QuickNavigation({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
         <motion.div className="fixed inset-0 z-[70] grid place-items-start bg-black/40 px-4 pt-[12svh] backdrop-blur-xs sm:place-items-center sm:pt-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.16 }} onPointerDown={onClose}>
           <motion.div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="quick-navigation-title" className="w-full max-w-lg" initial={{ opacity: 0, y: 10, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 6, scale: 0.98 }} transition={{ duration: 0.18 }} onPointerDown={(event) => event.stopPropagation()}>
             <GlassPanel variant="elevated" padding="sm" radius="md" className="mobile-menu-surface">
-              <div className="relative z-10 flex items-center gap-3 border-b border-foreground/30 px-2 pb-4"><Search className="size-4 text-primary" aria-hidden="true" /><div><h2 id="quick-navigation-title" className="font-mono text-xs font-semibold uppercase">Index du cahier</h2><p className="mt-0.5 text-xs text-muted-foreground">Chapitres et dossiers expérimentaux.</p></div><button type="button" onClick={onClose} aria-label="Fermer la navigation rapide" className="ml-auto grid size-9 place-items-center rounded-xs text-muted-foreground outline-none hover:bg-surface-strong hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><X className="size-4" aria-hidden="true" /></button></div>
+              <div className="relative z-10 flex items-center gap-3 border-b border-foreground/30 px-2 pb-4"><Search className="size-4 text-primary" aria-hidden="true" /><div><h2 id="quick-navigation-title" className="font-mono text-xs font-semibold uppercase">{t("nav.quick_title")}</h2><p className="mt-0.5 text-xs text-muted-foreground">{t("nav.quick_sub")}</p></div><button type="button" onClick={onClose} aria-label={t("nav.quick_close")} className="ml-auto grid size-9 place-items-center rounded-xs text-muted-foreground outline-none hover:bg-surface-strong hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><X className="size-4" aria-hidden="true" /></button></div>
               <nav aria-label="Navigation rapide" className="mt-2 grid gap-1 font-mono text-xs">
-                {navigationItems.map((item, index) => <a key={item.id} href={`#${item.id}`} onClick={onClose} className="flex min-h-10 items-center justify-between rounded-xs px-3 text-foreground outline-none transition-colors hover:bg-surface-strong focus-visible:bg-surface-strong focus-visible:ring-2 focus-visible:ring-ring"><span>{item.label}</span><span className="text-[0.625rem] text-primary">0{index + 1}</span></a>)}
-                <Link href="/projets/vision-balling" onClick={onClose} className="mt-1 flex min-h-10 items-center justify-between rounded-xs border-t border-foreground/25 px-3 pt-2 font-semibold text-primary outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><span>Dossier VISION-BALLING (v0.9.0-rc1)</span><ArrowUpRight className="size-4" aria-hidden="true" /></Link>
-                <Link href="/projets/football-intelligence-assistant" onClick={onClose} className="flex min-h-10 items-center justify-between rounded-xs px-3 text-secondary outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><span>Archive Football Intelligence Assistant</span><ArrowUpRight className="size-4" aria-hidden="true" /></Link>
+                {navigationItems.map((item, index) => <a key={item.id} href={`#${item.id}`} onClick={onClose} className="flex min-h-10 items-center justify-between rounded-xs px-3 text-foreground outline-none transition-colors hover:bg-surface-strong focus-visible:bg-surface-strong focus-visible:ring-2 focus-visible:ring-ring"><span>{t(`nav.${item.id}`)}</span><span className="text-[0.625rem] text-primary">0{index + 1}</span></a>)}
+                <Link href="/projets/vision-balling" onClick={onClose} className="mt-1 flex min-h-10 items-center justify-between rounded-xs border-t border-foreground/25 px-3 pt-2 font-semibold text-primary outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><span>{t("nav.dossier_vb")}</span><ArrowUpRight className="size-4" aria-hidden="true" /></Link>
+                <Link href="/projets/football-intelligence-assistant" onClick={onClose} className="flex min-h-10 items-center justify-between rounded-xs px-3 text-secondary outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring"><span>{t("nav.dossier_fia")}</span><ArrowUpRight className="size-4" aria-hidden="true" /></Link>
               </nav>
             </GlassPanel>
           </motion.div>
@@ -245,6 +263,7 @@ function MobileDock({ activeSection }: { activeSection: SectionId }) {
   const menuPanelRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const { locale, toggleLocale, t } = useLanguage();
 
   useEffect(() => {
     if (!isMenuOpen) {
@@ -327,7 +346,7 @@ function MobileDock({ activeSection }: { activeSection: SectionId }) {
                       )}
                       aria-current={isActive ? "location" : undefined}
                     >
-                      {item.label}
+                      {t(`nav.${item.id}`)}
                     </a>
                   );
                 })}
@@ -336,9 +355,24 @@ function MobileDock({ activeSection }: { activeSection: SectionId }) {
                   onClick={closeMenu}
                   className="col-span-2 mt-1 flex items-center justify-between rounded-xs border border-foreground bg-background px-3 py-2.5 font-semibold text-primary outline-none transition-colors duration-200 hover:bg-surface-strong focus-visible:ring-[3px] focus-visible:ring-ring/35"
                 >
-                  Dossier VISION-BALLING
+                  {t("nav.dossier_vb")}
                   <ArrowUpRight aria-hidden="true" className="size-4" />
                 </Link>
+
+                {/* Tactile language switch in mobile drawer */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    toggleLocale();
+                    closeMenu();
+                  }}
+                  className="col-span-2 mt-2 flex items-center justify-between rounded-xs border border-dashed border-foreground/35 bg-surface px-3 py-2.5 font-mono text-xs text-foreground transition-colors hover:bg-surface-strong focus-visible:ring-[3px] focus-visible:ring-ring/35"
+                >
+                  <span className="text-muted-foreground">{t("nav.lang_toggle")}</span>
+                  <span className="font-bold text-primary">
+                    {locale === "fr" ? "Passer en EN ↗" : "Switch to FR ↗"}
+                  </span>
+                </button>
               </div>
             </GlassPanel>
           </motion.div>
@@ -356,7 +390,7 @@ function MobileDock({ activeSection }: { activeSection: SectionId }) {
           className="relative z-10 grid grid-cols-5 items-center"
           onKeyDown={handleNavigationKeyDown}
         >
-          {mobileItems.map((item) => {
+          {mobileNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeSection === item.id;
 
@@ -378,7 +412,7 @@ function MobileDock({ activeSection }: { activeSection: SectionId }) {
                 )}
                 <Icon aria-hidden="true" className="relative z-10 size-[1.125rem]" />
                 <span className="relative z-10 max-w-full truncate">
-                  {item.label}
+                  {t(item.labelKey)}
                 </span>
               </a>
             );
@@ -393,7 +427,7 @@ function MobileDock({ activeSection }: { activeSection: SectionId }) {
             )}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-navigation-menu"
-            aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu complet"}
+            aria-label={isMenuOpen ? t("nav.mob_close") : t("nav.mob_menu")}
             onClick={() => setIsMenuOpen((current) => !current)}
           >
             {isMenuOpen ? (
@@ -401,7 +435,7 @@ function MobileDock({ activeSection }: { activeSection: SectionId }) {
             ) : (
               <Menu aria-hidden="true" className="size-[1.125rem]" />
             )}
-            <span>{isMenuOpen ? "Fermer" : "Menu"}</span>
+            <span>{isMenuOpen ? t("nav.mob_close") : t("nav.mob_menu")}</span>
           </button>
         </nav>
       </GlassPanel>

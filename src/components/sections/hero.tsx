@@ -1,10 +1,15 @@
+"use client";
+
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/content/site";
+import { useLanguage } from "@/lib/i18n";
 
 export function Hero() {
+  const { locale, t } = useLanguage();
+
   return (
     <section
       id="presentation"
@@ -16,16 +21,16 @@ export function Hero() {
       <div className="hero-reveal flex flex-wrap items-center justify-between gap-4 border-y-2 border-foreground py-3 font-mono text-[0.6875rem] tracking-[0.1em] uppercase">
         <div className="flex flex-wrap items-center gap-3">
           <span className="bg-foreground px-2 py-0.5 text-background">
-            CAHIER N° 01
+            {t("hero.masthead_issue")}
           </span>
           <span className="font-semibold text-foreground">ADRIANO GALLO</span>
           <span className="text-muted-foreground">
-            — LINGUISTIQUE (SORBONNE) × IA & VISION (PLURITAL)
+            — {t("hero.masthead_sub")}
           </span>
         </div>
         <div className="flex items-center gap-5">
           <span className="hidden text-muted-foreground sm:inline">
-            PARIS / ASNIÈRES
+            {t("hero.location")}
           </span>
           <a
             href={siteConfig.githubUrl}
@@ -52,89 +57,133 @@ export function Hero() {
         <div className="hero-reveal hero-reveal-delay-1 space-y-6 lg:col-span-3 lg:pt-4">
           <div className="margin-note">
             <p className="font-semibold text-primary uppercase">
-              [NOTE DE MARGE — 01]
+              {t("hero.margin_tag")}
             </p>
-            <p className="mt-1.5">
-              J’ai commencé par étudier la syntaxe, l’italien et l’analyse du
-              discours à la Sorbonne avant de plonger dans le NLP, le RAG et la
-              vision par ordinateur en Master PluriTAL.
-            </p>
+            <p className="mt-1.5">{t("hero.margin_text")}</p>
           </div>
 
           <div className="border-t border-border pt-4 font-mono text-xs leading-5 text-muted-foreground">
-            <p className="text-foreground">OBSESSION ACTUELLE :</p>
-            <p className="mt-1">
-              Pourquoi un modèle de langage hallucine-t-il sur un match de foot,
-              et comment l’ancrer de force dans la physique du terrain (105 m ×
-              68 m) ?
-            </p>
+            <p className="text-foreground">{t("hero.obsession_title")}</p>
+            <p className="mt-1">{t("hero.obsession_text")}</p>
           </div>
 
           <div className="flex flex-wrap gap-2 pt-1">
-            <span className="ink-stamp">ZÉRO BULLSHIT</span>
-            <span className="pitch-stamp">TERRAIN & PREUVE</span>
+            <span className="ink-stamp">{t("hero.stamp_rigor")}</span>
+            <span className="pitch-stamp">{t("hero.stamp_field")}</span>
           </div>
         </div>
 
         {/* Center/Right Giant Expressive Headline + Asymmetric Offset */}
         <div className="lg:col-span-9">
           <p className="hero-reveal hero-reveal-delay-1 font-mono text-xs tracking-[0.08em] text-muted-foreground uppercase">
-            Ni agence, ni{" "}
-            <span className="struck-out">prompt engineer magique</span> —
-            ingénierie du langage & de l’image
+            {locale === "fr" ? (
+              <>
+                Ni agence, ni{" "}
+                <span className="struck-out">prompt engineer magique</span> —
+                ingénierie du langage & de l’image
+              </>
+            ) : (
+              <>
+                Neither agency nor{" "}
+                <span className="struck-out">prompt magic</span> —
+                language & vision systems engineering
+              </>
+            )}
           </p>
 
           <h1
             id="hero-title"
             className="hero-reveal hero-reveal-delay-2 mt-4 font-editorial text-[clamp(3.3rem,8.4vw,7.8rem)] leading-[0.89] font-normal tracking-[-0.025em] text-foreground"
           >
-            De la grammaire{" "}
-            <span className="italic text-primary">italienne</span> à la
-            géométrie d’un{" "}
-            <span className="underline decoration-secondary decoration-2 underline-offset-8">
-              contre-pressing
-            </span>
-            .
+            {locale === "fr" ? (
+              <>
+                De la grammaire{" "}
+                <span className="italic text-primary">italienne</span> à la
+                géométrie d’un{" "}
+                <span className="underline decoration-secondary decoration-2 underline-offset-8">
+                  contre-pressing
+                </span>
+                .
+              </>
+            ) : (
+              <>
+                From Italian{" "}
+                <span className="italic text-primary">grammar</span> to the
+                geometry of a{" "}
+                <span className="underline decoration-secondary decoration-2 underline-offset-8">
+                  counter-press
+                </span>
+                .
+              </>
+            )}
           </h1>
 
           {/* Asymmetric 2-column sub-spread under the giant title */}
           <div className="mt-10 grid gap-8 border-t border-foreground/25 pt-8 lg:grid-cols-12">
             <div className="hero-reveal hero-reveal-delay-3 lg:col-span-7">
-              <p className="text-lg leading-relaxed text-foreground sm:text-xl">
-                Je m’appelle <strong>Adriano Gallo</strong>. Ce qui me fait
-                vibrer, c’est l’endroit exact où{" "}
-                <em>les mots rencontrent le réel</em> : transformer une vidéo
-                brute de match en coordonnées métriques, fouiller un corpus sans
-                perdre une nuance technique, et obliger une IA à{" "}
-                <span className="bg-primary/12 px-1.5 font-medium text-primary">
-                  prouver chaque phrase par un fait horodaté
-                </span>{" "}
-                — ou à se taire.
-              </p>
+              {locale === "fr" ? (
+                <p className="text-lg leading-relaxed text-foreground sm:text-xl">
+                  Je m’appelle <strong>Adriano Gallo</strong>. Ce qui me fait
+                  vibrer, c’est l’endroit exact où{" "}
+                  <em>les mots rencontrent le réel</em> : transformer une vidéo
+                  brute de match en coordonnées métriques, fouiller un corpus sans
+                  perdre une nuance technique, et obliger une IA à{" "}
+                  <span className="bg-primary/12 px-1.5 font-medium text-primary">
+                    prouver chaque phrase par un fait horodaté
+                  </span>{" "}
+                  — ou à se taire.
+                </p>
+              ) : (
+                <p className="text-lg leading-relaxed text-foreground sm:text-xl">
+                  My name is <strong>Adriano Gallo</strong>. What drives me is
+                  the exact spot where{" "}
+                  <em>words meet reality</em>: converting raw broadcast video
+                  into metric coordinates, querying domain corpora without
+                  smoothing away subtle technical vocabulary, and forcing AI to{" "}
+                  <span className="bg-primary/12 px-1.5 font-medium text-primary">
+                    prove every single claim with a timestamped fact
+                  </span>{" "}
+                  — or keep quiet.
+                </p>
+              )}
 
-              <p className="mt-4 font-mono text-xs leading-6 text-muted-foreground">
-                → Ci-dessous : mon établi{" "}
-                <strong className="text-foreground">
-                  VISION-BALLING (v0.9.0-rc1)
-                </strong>{" "}
-                avec scrubber vidéo temps réel, mes notes d’expériences (y
-                compris les modèles que j’ai jetés à la poubelle),{" "}
-                <strong className="text-foreground">
-                  Football Intelligence
-                </strong>{" "}
-                et <strong className="text-foreground">Evalia</strong>.
-              </p>
+              {locale === "fr" ? (
+                <p className="mt-4 font-mono text-xs leading-6 text-muted-foreground">
+                  → Ci-dessous : mon établi{" "}
+                  <strong className="text-foreground">
+                    VISION-BALLING (v0.9.0-rc1)
+                  </strong>{" "}
+                  avec scrubber vidéo temps réel, mes notes d’expériences (y
+                  compris les modèles que j’ai jetés à la poubelle),{" "}
+                  <strong className="text-foreground">
+                    Football Intelligence
+                  </strong>{" "}
+                  et <strong className="text-foreground">Evalia</strong>.
+                </p>
+              ) : (
+                <p className="mt-4 font-mono text-xs leading-6 text-muted-foreground">
+                  → Below: my live{" "}
+                  <strong className="text-foreground">
+                    VISION-BALLING (v0.9.0-rc1)
+                  </strong>{" "}
+                  workbench with real-time video scrubbing, experimental lab notes (including the models I threw away),{" "}
+                  <strong className="text-foreground">
+                    Football Intelligence
+                  </strong>{" "}
+                  and <strong className="text-foreground">Evalia</strong>.
+                </p>
+              )}
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Button asChild size="lg">
                   <a href="#projets">
-                    Manipuler l’établi VISION-BALLING
+                    {t("hero.cta_projects")}
                     <ArrowDownRight aria-hidden="true" />
                   </a>
                 </Button>
                 <Button asChild variant="glass" size="lg">
                   <Link href="/projets/vision-balling">
-                    Lire le cahier d’expériences (EXP-01→26)
+                    {t("hero.cta_case_study")}
                     <ArrowUpRight aria-hidden="true" />
                   </Link>
                 </Button>
@@ -146,9 +195,9 @@ export function Hero() {
               <div className="paper-sheet relative p-3.5 sm:p-4">
                 <div className="mb-2.5 flex items-center justify-between font-mono text-[0.625rem] tracking-[0.1em] uppercase">
                   <span className="font-semibold text-foreground">
-                    FIG. 00 — CAPTURE BRUTE SNMOT-068
+                    {t("hero.specimen_fig")}
                   </span>
-                  <span className="text-primary">● REC 25 FPS</span>
+                  <span className="text-primary">{t("hero.specimen_rec")}</span>
                 </div>
 
                 <div className="relative overflow-hidden border border-foreground bg-black">
@@ -170,12 +219,9 @@ export function Hero() {
                 </div>
 
                 <div className="mt-3 flex items-start justify-between gap-3 font-mono text-[0.6875rem] leading-4 text-muted-foreground">
-                  <p>
-                    « J’ai refusé que le LLM résume le match au hasard : chaque
-                    ligne du rapport pointe vers une frame précise. »
-                  </p>
+                  <p>{t("hero.specimen_quote")}</p>
                   <span className="shrink-0 border border-secondary px-1.5 py-0.5 text-[0.625rem] font-semibold text-secondary">
-                    0% HALLU
+                    {t("hero.specimen_badge")}
                   </span>
                 </div>
               </div>
